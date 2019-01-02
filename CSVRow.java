@@ -38,13 +38,33 @@ public class CSVRow {
          * 1. If a cell contains a comma, then wrap the whole cell in “ (double quotes)
          *    w, → “w,”
          * 2. If a cell contains a double quote, then put another one immediately after it
+         *    w” → w””
          * 3. If a cell contains both a comma and double quote, then follow rule 1 and 2
-         * @return The string representation of this cell.
+         *    w,”” → “w, ” ” ” ” ” (ignore the white space and this text)
+         * @return The string representation of this cell without commas to separate cells
          */
         @Override
         public String toString(){
+            // Use a StringBuilder because it is more efficient when appending characters in a loop
+            StringBuilder returnString = new StringBuilder();
+            char quoteCharacter = '"';
 
-            return null;
+            for(int i = 0; i < data.length(); i++){
+                char characterAtIndex = data.charAt(i);
+                switch(characterAtIndex){
+                    case '\"':
+                        // If the user types in a double quote, it becomes two double quotes
+                        returnString.append(quoteCharacter).append(quoteCharacter);
+                        break;
+                    case ',':
+                        // If the user types in a comma, the whole cell needs to be wrapped
+                        returnString.insert(0, quoteCharacter).append(quoteCharacter);
+                    default:
+                        returnString.append(characterAtIndex);
+                }
+            }
+
+            return returnString.toString();
         }
     }
 }
