@@ -1,4 +1,4 @@
 .idea
-.xml
-.csv
-.class
+*.xml
+*.csv
+*.class
