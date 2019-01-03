@@ -6,4 +6,6 @@ public class CSVRepresentation {
     public CSVRepresentation(Path pathToCSV){
         this.pathToCSV = pathToCSV;
     }
+
+
 }
