@@ -62,18 +62,15 @@ public class Operations{
   }
 
   public static int[] sort(int[] values){
-    int before,after;
-    for (int i = 0;i < values.length; i++){
-      for (int x = 0; x < values.length - i - 1; x++){
-        //checks 2 adjacent numbers
-        if (values[x] > values[x+1]){
-          //swaps if unsorted
-          before = values[x];
-          after = values[x+1];
-          values[x] = after;
-          values[x+1] = before;
+    // Don't care about the first element because it will be sorted later
+    for (int i = 1; i < values.length; i++) {
+        int temp = values[i];
+        int index = i;
+        while (index > 0 && values[index - 1] > temp) {
+            values[index] = values[index - 1];
+            index--;
         }
-      }
+        values[index] = temp;
     }
     return values;
   }
