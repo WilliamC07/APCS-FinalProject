@@ -53,24 +53,27 @@ public class Operations{
     return  add(values) / (double) values.length;
   }
 
-  public static int median(int[] values){
+  public static double median(int[] values){
     sort(values);
     if (values.length % 2 == 0){
-      return (values[values.length/2] + values[(values.length/2) + 1]) / 2;
+      return (double)(values[values.length/2] + values[(values.length/2) + 1]) / 2;
     }
-    return values[(values.length/2) + 1];
+    return (double)values[(values.length/2) + 2];
   }
 
   public static int[] sort(int[] values){
-    // Don't care about the first element because it will be sorted later
-    for (int i = 1; i < values.length; i++) {
-        int temp = values[i];
-        int index = i;
-        while (index > 0 && values[index - 1] > temp) {
-            values[index] = values[index - 1];
-            index--;
+    int before,after;
+    for (int i = 0;i < values.length; i++){
+      for (int x = 0; x < values.length - i - 1; x++){
+        //checks 2 adjacent numbers
+        if (values[x] > values[x+1]){
+          //swaps if unsorted
+          before = values[x];
+          after = values[x+1];
+          values[x] = after;
+          values[x+1] = before;
         }
-        values[index] = temp;
+      }
     }
     return values;
   }
