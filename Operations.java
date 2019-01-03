@@ -49,8 +49,8 @@ public class Operations{
    return maxValue;
   }
 
-  public static int mean(int[] values){
-    return add(values) / values.length;
+  public static double mean(int[] values){
+    return  add(values) / (double) values.length;
   }
 
   public static int median(int[] values){
@@ -78,9 +78,22 @@ public class Operations{
     return values;
   }
 
-}
+  public static int count(int[] values, int target){
+    int count = 0;
+    for (int i =0; i < values.length; i++){
+      if (values[i] == target){
+        count++;
+      }
+    }
+    return count;
+  }
 
-/*  All methods remaining
-+ count(int[] value, target): int
-+ product(int[] values): int
-*/
+  public static int product(int[] values){
+    int product = 0;
+    for (int i = 0; i < values.length; i++){
+      product *= values[i];
+    }
+    return product;
+  }
+
+}
