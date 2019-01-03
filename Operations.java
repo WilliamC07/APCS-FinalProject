@@ -32,20 +32,55 @@ public class Operations{
     return smallest;
   }
 
-/*  Has to finish this
   public static int mode(int[] values){
-    int count = 0
+   int maxValue = 0;
+   int maxCount = 0;
+   for (int i = 0; i < values.length; ++i){
+       int count = 0;
+       for (int j = 0; j < values.length; ++j){
+           if (values[j] == values[i])
+               count++;
+       }
+       if (count > maxCount) {
+           maxCount = count;
+           maxValue = values[i];
+       }
+   }
+   return maxValue;
   }
 
-  All methods remaining
-+ mode(int[] values): int
-+ mean(int[] values): int
-+ median(int[] values): int
-+ sort(int[] values): int[]
+  public static int mean(int[] values){
+    return add(values) / values.length;
+  }
+
+  public static int median(int[] values){
+    sort(values);
+    if (values.length % 2 == 0){
+      return (values[values.length/2] + values[(values.length/2) + 1]) / 2;
+    }
+    return values[(values.length/2) + 1];
+  }
+
+  public static int[] sort(int[] values){
+    int before,after;
+    for (int i = 0;i < values.length; i++){
+      for (int x = 0; x < values.length - i - 1; x++){
+        //checks 2 adjacent numbers
+        if (values[x] > values[x+1]){
+          //swaps if unsorted
+          before = values[x];
+          after = values[x+1];
+          values[x] = after;
+          values[x+1] = before;
+        }
+      }
+    }
+    return values;
+  }
+
+}
+
+/*  All methods remaining
 + count(int[] value, target): int
 + product(int[] values): int
 */
-
-
-
-}
