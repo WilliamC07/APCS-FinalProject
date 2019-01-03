@@ -63,7 +63,22 @@ public class CSVRow {
          * @return Data to be stored in the cell.
          */
         private static String stringRepresentationToData(String stringRepresentation){
-
+            StringBuilder builder = new StringBuilder();
+            final char quote = '\"';
+            for(int i = 0; i < stringRepresentation.length(); i++){
+                char c = stringRepresentation.charAt(i);
+                if(c == quote){
+                    // This means there are two double quotes in a row, which converts to a single quote.
+                    // Do add the quote if it is just a single one
+                    if(i != stringRepresentation.length() -1 && stringRepresentation.charAt(i+1) == quote){
+                        builder.append(quote);
+                    }
+                }else{
+                    // All other characters can be added normally
+                    builder.append(c);
+                }
+            }
+            return builder.toString();
         }
 
         /**
