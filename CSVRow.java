@@ -15,7 +15,7 @@ public class CSVRow extends LinkedList<CSVNode>{
      * @param rowStringRepresentation The string representation of the row
      * @return A new instance of this class given the following information
      */
-    public static CSVRow createNewRow(String rowStringRepresentation){
+    public static CSVRow createNewRowFromString(String rowStringRepresentation){
         CSVRow row = new CSVRow();
         char quote = '"';
         StringBuilder cellStringRepresentation = null;
