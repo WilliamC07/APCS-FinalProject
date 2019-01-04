@@ -15,3 +15,5 @@ Group 19
 #### William: 
 * Made static factory method and private constructor to make creating new instances easier.
 * Made CSV row extend LinkedList so we don't need to rewrite the entire class
+* Allowed for reading and writing the csv file to disk.
+* Finished writing method to construct a row of the CSV file given a string representation of it.
