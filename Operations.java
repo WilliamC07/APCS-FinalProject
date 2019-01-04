@@ -56,9 +56,9 @@ public class Operations{
   public static double median(int[] values){
     sort(values);
     if (values.length % 2 == 0){
-      return (double)(values[values.length/2] + values[(values.length/2) + 1]) / 2;
+      return (double)(values[values.length/2 - 1 ] + values[(values.length/2)]) / 2;
     }
-    return (double)values[(values.length/2) + 2];
+    return (double)values[(values.length/2)];
   }
 
   public static int[] sort(int[] values){
