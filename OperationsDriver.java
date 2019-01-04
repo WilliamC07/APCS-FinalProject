@@ -2,6 +2,7 @@ public class OperationsDriver{
 
   public static void main(String[] args) {
     int[] nums = new int[]{1,3,2,4,6,5};
+    int[] odd = new int[]{1,2,3,4,5};
     System.out.println("The array is : [1,3,2,4,6,5]");
     System.out.println("The sum should be 21");
     System.out.println("The add function returned:" + Operations.add(nums));
@@ -14,7 +15,9 @@ public class OperationsDriver{
     System.out.println("The mean should be 3.5");
     System.out.println("The mean function returned:" + Operations.mean(nums));
     System.out.println("The median should be 3.5");
-    System.out.println("The median function returned:" + Operations.median(nums));
+    System.out.println("The median function returned: " + Operations.median(nums));
+    System.out.println("The median of {1,2,3,4,5} should be 3.0" );
+    System.out.println("The function returned: " + Operations.median(odd));
     System.out.println("The sorted array should be [1,2,3,4,5,6]");
     Operations.sort(nums);
     String s = "[";
@@ -22,7 +25,9 @@ public class OperationsDriver{
       if (i < nums.length -1){
         s += nums[i] + ",";
       }
-      s += nums[i];
+      else{
+        s += nums[i];
+      }
     }
     s += "]";
     System.out.println("The sorted array is " + s);
