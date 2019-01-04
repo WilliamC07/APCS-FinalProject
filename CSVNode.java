@@ -6,49 +6,33 @@ public class CSVNode{
      * The data stored in the node.
      */
     private String data;
-    /**
-     * Reference to the previous node (this is the previous cell). Null if this node is the first cell.
-     */
-    private CSVNode previous;
-    /**
-     * Reference to the next node (this is the next cell). Null if this node is the last cell.
-     */
-    private CSVNode next;
 
     /**
      * Creates a new cell in the row.
      * @param data Data that will be stored in the cell.
-     * @param previous Reference to the previous node
-     * @param next Reference to the
      */
-    private CSVNode(String data, CSVNode previous, CSVNode next){
+    private CSVNode(String data){
         this.data = data;
-        this.previous = previous;
-        this.next = next;
     }
 
     /**
      * Static Factory Method to get an instance of this class.
-     * Creates a new cell given the data to be stored, previous and next node.
+     * Creates a new cell given the data to be stored.
      * @param data Data to be stored on the list.
-     * @param previous Previous node; null if this is the first node
-     * @param next Next node; null if this is the last node
      * @return A new node
      */
-    public static CSVNode newInstance(String data, CSVNode previous, CSVNode next){
-        return new CSVNode(data, previous, next);
+    public static CSVNode newInstance(String data){
+        return new CSVNode(data);
     }
 
     /**
      * Static Factory Method to get an instance of this class
      * Creates a new cell given the string representation of the node.
      * @param stringRepresentation String representation of the node defined by {@link #toString()}
-     * @param previous Previous node, null if this is the first node
-     * @param next Next node, null if this is the last node
      * @return A new node from the given string representation
      */
-    public static CSVNode of(String stringRepresentation, CSVNode previous, CSVNode next){
-        return new CSVNode(stringRepresentationToData(stringRepresentation), previous, next);
+    public static CSVNode of(String stringRepresentation){
+        return new CSVNode(stringRepresentationToData(stringRepresentation));
     }
 
     /**
