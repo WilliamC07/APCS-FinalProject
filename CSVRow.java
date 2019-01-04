@@ -10,6 +10,30 @@ public class CSVRow extends LinkedList<CSVNode>{
 
     }
 
+    @Override
+    public boolean add(CSVNode n){
+        super.add(n);
+        updateLargestRowSize();
+        return true;
+    }
+
+    @Override
+    public void add(int index, CSVNode n){
+        super.add(index, n);
+        updateLargestRowSize();
+    }
+
+    @Override
+    public CSVNode remove(int index){
+        CSVNode removedNode = super.remove(index);
+        updateLargestRowSize();
+        return removedNode;
+    }
+
+    private void updateLargestRowSize(){
+        largestRowSize = size() > largestRowSize ? size() : largestRowSize;
+    }
+
     /**
      * Creates a new row given the string representation of the row. A comma is used to separate cells.
      * @param rowStringRepresentation The string representation of the row
