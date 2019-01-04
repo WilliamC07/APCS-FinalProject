@@ -40,4 +40,27 @@ public class CSVRow extends LinkedList<CSVNode>{
 
         return row;
     }
+
+    /**
+     * Converts the given row into a string. If the row isn't long enough, it will add extra commas.
+     * @return String representation of this row
+     */
+    @Override
+    public String toString(){
+        StringBuilder builder = new StringBuilder();
+        char quote = '"';
+        int amountOfCellsAdded = 0;
+        for(CSVNode node : this){
+            builder.append(quote).append(node.toString()).append(quote);
+            amountOfCellsAdded++;
+        }
+
+        // Need to add empty cells to make the csv complete by adding commas
+        while(amountOfCellsAdded != largestRowSize){
+            builder.append(quote);
+            amountOfCellsAdded++;
+        }
+
+        return builder.toString();
+    }
 }
