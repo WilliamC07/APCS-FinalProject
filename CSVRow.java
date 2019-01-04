@@ -10,6 +10,11 @@ public class CSVRow extends LinkedList<CSVNode>{
 
     }
 
+    /**
+     * Creates a new row given the string representation of the row. A comma is used to separate cells.
+     * @param rowStringRepresentation The string representation of the row
+     * @return A new instance of this class given the following information
+     */
     public static CSVRow createNewRow(String rowStringRepresentation){
         CSVRow row = new CSVRow();
         char quote = '"';
@@ -17,6 +22,7 @@ public class CSVRow extends LinkedList<CSVNode>{
 
         for(int i = 0; i < rowStringRepresentation.length(); i++){
             char c = rowStringRepresentation.charAt(i);
+
             if(c == quote){
                 if(i != rowStringRepresentation.length() - 1 && rowStringRepresentation.charAt(i + 1) == quote){
                     // Double double quotes gets passed in
@@ -26,7 +32,8 @@ public class CSVRow extends LinkedList<CSVNode>{
                 }else{
                     // Single double quote is ignored and means it is the start/end of a cell
                     if(cellStringRepresentation == null){
-                        // This mean it is the start of a new cell
+                        // This mean it is the start the first row
+                        // So the csv string might look like --> "asd,",banana
                         cellStringRepresentation = new StringBuilder();
                     }else{
                         // This means it is the end of the cell
@@ -35,6 +42,17 @@ public class CSVRow extends LinkedList<CSVNode>{
                         cellStringRepresentation = null;
                     }
                 }
+            }else if(c == ','){
+                // Only add commas if they are part of a cell
+                if(cellStringRepresentation != null){
+                    cellStringRepresentation.append(',');
+                }else{
+                    // Comma can also be used to start a new cell
+                    cellStringRepresentation = new StringBuilder();
+                }
+            }else{
+                // All other characters are valid and nothing needs to be done
+                cellStringRepresentation.append(c);
             }
         }
 
