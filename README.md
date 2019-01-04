@@ -12,6 +12,7 @@ Group 19
 * Moved nested CSV cell class to keep one class per file
 * Can convert a string representation of the cell into a cell
 ### 1/4/19:
+#### Merged read_csv_file to master, testing now
 #### William: 
 * Made static factory method and private constructor to make creating new instances easier.
 * Made CSV row extend LinkedList so we don't need to rewrite the entire class
