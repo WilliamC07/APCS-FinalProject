@@ -54,6 +54,9 @@ public class Screen extends Thread{
      * @param terminal Terminal in which to output the characters
      */
     private void updateScreen(Terminal terminal){
+        // Move cursor to start since it doesn't get reset by clearing the screen
+        terminal.moveCursor(0, 0);
+
         // Add the new content (or old content if nothing changed)
         String table = "Sloths are cool"; // TODO update to use samson's method
         for(int i = 0; i < table.length(); i++){
