@@ -10,7 +10,7 @@ public class ScreenDriver{
     System.out.println("Should return horse");
     System.out.println("Returned:" + Screen.fitSpace("horse", 5));*/
 
-    System.out.println("Returned:" +  "\n" + Screen.getTable(40,10,10));
+    System.out.println("Returned:" +  "\n" + getTable(40,10,10));
 
     }
 
