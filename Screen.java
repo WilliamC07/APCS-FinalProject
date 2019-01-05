@@ -6,8 +6,17 @@ public class Screen{
    * @param  spacing The amount of space you have in the cell
    * @return         A new string that can fit in the cell
    */
-  	public String fitSpace(String value, int spacing){
-      return value.substring(0,spacing);
+  	public static String fitSpace(String value, int spacing){
+      if (spacing > value.length()){
+        return value;
+      }
+      int i = 0;
+      String s = "";
+      while (i < spacing){
+        s += value.charAt(i);
+        i++;
+      }
+      return s;
     }
-    
+
 }
