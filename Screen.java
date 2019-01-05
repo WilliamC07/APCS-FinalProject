@@ -1,6 +1,7 @@
 import com.googlecode.lanterna.TerminalFacade;
 import com.googlecode.lanterna.input.Key;
 import com.googlecode.lanterna.terminal.Terminal;
+import com.googlecode.lanterna.terminal.TerminalSize;
 
 import java.util.ArrayDeque;
 
@@ -26,23 +27,26 @@ public class Screen extends Thread {
         terminal.enterPrivateMode();
         // Prevents the user from writing text to the screen directly, text only goes in the last line
         terminal.setCursorVisible(false);
+        // Show the table onto the screen
+        updateScreen(terminal);
+        TerminalSize terminalSize = terminal.getTerminalSize();
 
         while (isRunning) {
-            // Removes previous content
-            terminal.clearScreen();
-
-            // Show the table onto the screen
-            updateScreen(terminal);
+            // Refresh the view if the terminal has been resized
+            if(!terminal.getTerminalSize().equals(terminalSize)){
+                updateScreen(terminal);
+            }
 
             // Process the keystrokes if there are any
             Key key = terminal.readInput();
             if (key != null) {
-
+                // Only update the view if there is something to update
+                updateScreen(terminal);
             }
 
             // Sleep so the program doesn't take up the entire cpu
             try {
-                Thread.sleep(500);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 // Do nothing
             }
@@ -50,12 +54,13 @@ public class Screen extends Thread {
     }
 
     /**
-     * Shows the new content onto the screen. This assumes that the screen has been cleared already and is in private
-     * mode.
+     * Shows the new content onto the screen. This will clear the screen and move the cursor.
      *
      * @param terminal Terminal in which to output the characters
      */
     private void updateScreen(Terminal terminal) {
+        terminal.clearScreen();
+
         // Move cursor to start since it doesn't get reset by clearing the screen
         terminal.moveCursor(0, 0);
 
