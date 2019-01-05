@@ -6,7 +6,7 @@ public class Screen{
    * @param  spacing The amount of space you have in the cell
    * @return         A new string that can fit in the cell
    */
-  	public static String fitSpace(String value, int spacing){
+  	public String fitSpace(String value, int spacing){
       if (spacing > value.length()){
         return value;
       }
@@ -19,43 +19,25 @@ public class Screen{
       return s;
     }
 
-    /*This is how it should look like on a 40 by 10 grid
-                |          |          |
-      ----------------------------------------
-                |          |          |
-      ----------------------------------------
-                |          |          |
-      ----------------------------------------
-                |   	     |          |
-      ----------------------------------------
-                |          |          |
-      ----------------------------------------
 
-The cells are 10 spaces (so it can fit that many characters)*/
-
-  public static String getTable(int columns, int rows, int cellspacing){
+  public String getTable(int columns, int rows, int cellspacing){
     String s = "";
-    for (int j = 0; j < rows / 2; j++){
-      for (int x = 0; x < (columns / cellspacing); x++){
+    for (int j = 0; j < rows ; j++){
+      for (int x = 0; x < columns; x++){
         int i = 0;
-        while(i < cellspacing){
-          s += "_";
+        if(i < cellspacing && j % 2 == 1){
+          s += "-";
           i++;
         }
-        if (x < (columns / cellspacing) - 1){
+        if(x % cellspacing == 0 && x != 0 && j % 2 == 0){
           s += "|";
         }
+        else if(j % 2 == 0 && x % cellspacing != 0){
+          s+=" ";
+          }
+        }
+        s += "\n";
       }
-      s += "\n";
+      return s;
     }
-    return s;
-  }
-/*
-Make sure that after each line, there is a '\n'
-
-Make sure the last line is always a line of dashes.
-
-For not just just spaces to separate the '|' We will later modify it to show content
-
-*/
 }
