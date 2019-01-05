@@ -69,6 +69,9 @@ public class Screen extends Thread {
         for (int i = 0; i < table.length(); i++) {
             terminal.putCharacter(table.charAt(i));
         }
+
+        // Prevents flickering for larger screens when terminal is enlarged
+        terminal.flush();
     }
 
     /**
