@@ -1,8 +1,9 @@
+
 ## How to run the program
-1. Clone the repository through your terminal and change your working directory into it.
-2. Download the lantern jar from [stuycs.org](http://www.stuycs.org/courses/apcs/k/2019-01-03) and put it in the repo.
-3. Run `bash run.sh <arguments>`
-⋅⋅⋅the argument is the path to the csv file you want to edit. It supports absolute and relative paths. 
+ 1. Clone the repository through your terminal and change your working directory into it.
+ 2. Download the lantern jar from [stuycs.org](http://www.stuycs.org/courses/apcs/k/2019-01-03) and put it in the repo.
+ 3. Run `bash run.sh <arguments>`
+    - the argument is the path to the csv file you want to edit. It supports absolute and relative paths. 
 
 Group 19
 
