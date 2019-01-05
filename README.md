@@ -28,3 +28,9 @@ Group 19
 * Fixed methods that didn't work (median)
 * Wrote more test cases in driver
 * Wrote javadocs comments for the functions
+### 1/5/19:
+#### Merged drawing_the_screen and tableMaking
+#### William
+* Can show the table created by Samson onto the terminal
+* Screen freshes on keystroke or when the terminal is resized to prevent flickering
+#### Samson
