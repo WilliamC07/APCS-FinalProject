@@ -1,5 +1,4 @@
 public class Screen{
-
   /**
    * A cell can only fit a certain amount of text, so we have to cut off parts that do not fit
    * @param  value   The string you are attempting to add
@@ -19,7 +18,6 @@ public class Screen{
       return s;
     }
 
-
   public String getTable(int columns, int rows, int cellspacing){
     String s = "";
     for (int j = 0; j < rows ; j++){
@@ -34,10 +32,10 @@ public class Screen{
         }
         else if(j % 2 == 0 && x % cellspacing != 0){
           s+=" ";
-          }
         }
-        s += "\n";
       }
-      return s;
+        s += "\n";
     }
+      return s;
+  }
 }
