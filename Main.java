@@ -1,3 +1,4 @@
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
@@ -22,12 +23,12 @@ public class Main{
 		try{
 			if(input.startsWith("/")){
 				// The user gave an absolute path from /
-				pathToFile = Path.of(input);
+				pathToFile = new File(input).toPath();
 			}else if(input.startsWith("~")){
 				// The user gave an absolute path from ~
-				pathToFile = Path.of(System.getProperty("user.home"), input);
+				pathToFile = new File(System.getProperty("user.home")).toPath().resolve(input);
 			}else{
-				pathToFile = Path.of(System.getProperty("user.dir"), input);
+				pathToFile = new File(System.getProperty("user.dir")).toPath().resolve(input);
 			}
 		}catch(InvalidPathException e){
 			// The file the user gave is incorrect
