@@ -11,6 +11,8 @@ public class Main{
 		// One variable passed in is opening a file
 		if(args.length == 1){
 			Path pathToCSV = processPath(args[0]);
+			System.out.println("start");
+			new Head(pathToCSV);
 		}
 	}
 
