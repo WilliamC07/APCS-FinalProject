@@ -42,6 +42,7 @@ public class CSVRow extends LinkedList<CSVNode>{
     public static CSVRow createNewRowFromString(String rowStringRepresentation){
         CSVRow row = new CSVRow();
         char quote = '"';
+        boolean cellStartsWithQuote = false;
         StringBuilder cellStringRepresentation = null;
 
         for(int i = 0; i < rowStringRepresentation.length(); i++){
@@ -59,25 +60,41 @@ public class CSVRow extends LinkedList<CSVNode>{
                         // This mean it is the start the first row
                         // So the csv string might look like --> "asd,",banana
                         cellStringRepresentation = new StringBuilder();
+                        cellStartsWithQuote = true;
                     }else{
                         // This means it is the end of the cell
                         row.add(CSVNode.of(cellStringRepresentation.toString()));
                         // Reset it it to denote that we
                         cellStringRepresentation = null;
+                        // We don't know if the next cell starts with quote
+                        cellStartsWithQuote = false;
                     }
                 }
             }else if(c == ','){
-                // Only add commas if they are part of a cell
-                if(cellStringRepresentation != null){
+                // Only add commas if they are part of a cell (if the cell is in quotes, the comma is considered part of it
+                if(cellStringRepresentation != null && cellStartsWithQuote){
                     cellStringRepresentation.append(',');
                 }else{
-                    // Comma can also be used to start a new cell
+                    // Comma means the end of a cell, so add that and make a new builder
+                    if(cellStringRepresentation != null){
+                        // Multiple commas in a row can be used to represent empty cells
+                        row.add(CSVNode.of(cellStringRepresentation.toString()));
+                    }
                     cellStringRepresentation = new StringBuilder();
                 }
             }else{
                 // All other characters are valid and nothing needs to be done
+                // Make an instance of the StringBuilder if there isn't one (happens for the first cell of each row
+                if(cellStringRepresentation == null){
+                    cellStringRepresentation = new StringBuilder();
+                }
                 cellStringRepresentation.append(c);
             }
+        }
+
+        // Add the last cell to the csv if there is a cell to add
+        if(cellStringRepresentation != null){
+            row.add(CSVNode.of(cellStringRepresentation.toString()));
         }
 
         return row;
