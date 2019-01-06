@@ -8,6 +8,10 @@ import java.util.ArrayDeque;
 public class Screen extends Thread {
     private final CSVRepresentation csvRepresentation;
     private volatile boolean requestScreenUpdate = false;
+    /**
+     * Initializes value of one. This is the top left cell of the screen.
+     */
+    private volatile int startRow, startColumn;
 
     /**
      * Constructor
@@ -118,21 +122,45 @@ public class Screen extends Thread {
      */
     public String getTable(int columns, int rows, int cellspacing) {
         String s = "";
-        for (int j = 0; j < rows; j++) {
-            for (int x = 0; x < columns; x++) {
-                int i = 0;
-                if (i < cellspacing && j % 2 == 1) {
-                    s += "-";
-                    i++;
-                }
-                if (x % cellspacing == 0 && x != 0 && j % 2 == 0) {
-                    s += "|";
-                } else if (j % 2 == 0 && x % cellspacing != 0) {
-                    s += " ";
+        for (int row = 0; row < rows; row++) {
+            int csvRow = startRow + row;
+            // Every other row has a dashed line (starting with row 1)
+            if(row % 2 == 0){
+                s += repeat("-", columns);
+            }else{
+                // All other lines are able to fit data and a divider
+                for (int column = 0; column < columns;) {
+                    int csvColumn = startColumn + columns / cellspacing;
+                    // Check if we can fit a cell, add one because we need to fit a divider
+                    if(columns - column + 1 < cellspacing){
+                        // Cannot fit another column, so just use up remaining space
+                        // Don't add a divider since we want to fit as much data as we can
+                        int repeatAmount = columns - column;
+                        s += fitSpace(csvRepresentation.getValue(csvColumn, csvRow), repeatAmount);
+                        column += repeatAmount;
+                    }else{
+                        // Can fit another column
+                        s += fitSpace(csvRepresentation.getValue(csvColumn, csvRow), cellspacing) + "|";
+                        column += cellspacing + 1; // add one for the divider
+                    }
                 }
             }
             s += "\n";
         }
         return s;
+    }
+
+    /**
+     * Repeats a character a certain number of times.
+     * @param string String to be repeated
+     * @param times Number of times to repeat the string
+     * @return String that contains the given value repeated by the given value.
+     */
+    private String repeat(String string, int times){
+        StringBuilder builder = new StringBuilder();
+        for(int i = 0; i < times; i++){
+            builder.append(string);
+        }
+        return builder.toString();
     }
 }
