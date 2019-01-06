@@ -11,7 +11,7 @@ public class Screen extends Thread {
     /**
      * Initializes value of one. This is the top left cell of the screen.
      */
-    private volatile int startRow, startColumn;
+    private volatile int startRow = 0, startColumn = 0;
 
     /**
      * Constructor
@@ -123,14 +123,15 @@ public class Screen extends Thread {
     public String getTable(int columns, int rows, int cellspacing) {
         String s = "";
         for (int row = 0; row < rows; row++) {
-            int csvRow = startRow + row;
+            // Divide by two since every other line shows information
+            int csvRow = startRow + row / 2;
             // Every other row has a dashed line (starting with row 1)
             if(row % 2 == 0){
                 s += repeat("-", columns);
             }else{
                 // All other lines are able to fit data and a divider
                 for (int column = 0; column < columns;) {
-                    int csvColumn = startColumn + columns / cellspacing;
+                    int csvColumn = startColumn + column / (cellspacing + 1);
                     // Check if we can fit a cell, add one because we need to fit a divider
                     if(columns - column + 1 < cellspacing){
                         // Cannot fit another column, so just use up remaining space
