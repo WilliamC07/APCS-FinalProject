@@ -64,9 +64,9 @@ public class CSVRow extends LinkedList<CSVNode>{
                         cellStartsWithQuote = true;
                     }else{
                         // This means it is the end of the cell
-                        row.add(CSVNode.of(cellStringRepresentation.toString()));
-                        // Reset it it to denote that we
-                        cellStringRepresentation = null;
+                        // The following comma after the cell will add it to the row or if this is the last cell,
+                        // it will still be added by the external add outside this loop
+
                         // We don't know if the next cell starts with quote
                         cellStartsWithQuote = false;
                     }

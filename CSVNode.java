@@ -71,8 +71,9 @@ public class CSVNode{
      * This does NOT include the commas to separate each cell. It is formatted in this way:
      * 1. If a cell contains a comma, then wrap the whole cell in “ (double quotes)
      *    w, → “w,”
-     * 2. If a cell contains a double quote, then put another one immediately after it
-     *    w” → w””
+     * 2. If a cell contains a double quote, then put another one immediately after it and wrap the whole thing in
+     * double quotes
+     *    w” → "w””"
      * 3. If a cell contains both a comma and double quote, then follow rule 1 and 2
      *    w,”” → “w, ” ” ” ” ” (ignore the white space and this text)
      * @return The string representation of this cell without commas to separate cells
