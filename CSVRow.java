@@ -77,10 +77,11 @@ public class CSVRow extends LinkedList<CSVNode>{
                     cellStringRepresentation.append(',');
                 }else{
                     // Comma means the end of a cell, so add that and make a new builder
-                    if(cellStringRepresentation != null){
-                        // Multiple commas in a row can be used to represent empty cells
-                        row.add(CSVNode.of(cellStringRepresentation.toString()));
+                    if(cellStringRepresentation == null){
+                        cellStringRepresentation = new StringBuilder();
                     }
+                    // Multiple commas in a row can be used to represent empty cells
+                    row.add(CSVNode.of(cellStringRepresentation.toString()));
                     cellStringRepresentation = new StringBuilder();
                 }
             }else{
