@@ -84,7 +84,8 @@ public class CSVNode{
                     break;
                 case ',':
                     // If the user types in a comma, the whole cell needs to be wrapped
-                    returnString.insert(0, quoteCharacter).append(quoteCharacter);
+                    returnString.insert(0, quoteCharacter).append(",").append(quoteCharacter);
+                    break;
                 default:
                     returnString.append(characterAtIndex);
             }
