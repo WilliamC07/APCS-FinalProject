@@ -7,6 +7,7 @@ import java.util.ArrayDeque;
 
 public class Screen extends Thread {
     private final CSVRepresentation csvRepresentation;
+    private volatile boolean requestScreenUpdate = false;
 
     /**
      * Constructor
@@ -44,6 +45,12 @@ public class Screen extends Thread {
                 updateScreen(terminal);
             }
 
+            // Update the screen if a function requests it
+            if(requestScreenUpdate){
+                updateScreen(terminal);
+                requestScreenUpdate = false; // only update it once per request
+            }
+
             // Sleep so the program doesn't take up the entire cpu
             try {
                 Thread.sleep(100);
@@ -51,6 +58,13 @@ public class Screen extends Thread {
                 // Do nothing
             }
         }
+    }
+
+    /**
+     * Forces the terminal to update with the latest information.
+     */
+    public void forceScreenUpdate(){
+        requestScreenUpdate = true;
     }
 
     /**
