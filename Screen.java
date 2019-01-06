@@ -100,16 +100,16 @@ public class Screen extends Thread {
      * @return A new string that can fit in the cell
      */
     public String fitSpace(String value, int spacing) {
-        if (spacing > value.length()) {
-            return value;
+        if (spacing < value.length()) {
+            return value.substring(0, spacing);
         }
-        int i = 0;
-        String s = "";
-        while (i < spacing) {
-            s += value.charAt(i);
-            i++;
+
+        // Adds space if the string is too short
+        StringBuilder paddedString = new StringBuilder(value);
+        while(paddedString.length() < spacing){
+            paddedString.append(" ");
         }
-        return s;
+        return paddedString.toString();
     }
 
     /**
