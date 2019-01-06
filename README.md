@@ -3,7 +3,7 @@
  1. Clone the repository through your terminal and change your working directory into it.
  2. Download the lantern jar from [stuycs.org](http://www.stuycs.org/courses/apcs/k/2019-01-03) and put it in the repo.
  3. Run `bash run.sh <arguments>`
-    - the argument is the path to the csv file you want to edit. It supports absolute and relative paths. 
+    - the argument is the path to the csv file you want to edit. It supports absolute and relative paths.
 
 Group 19
 
@@ -42,3 +42,5 @@ Group 19
 * Screen freshes on keystroke or when the terminal is resized to prevent flickering
 * Added instructions to run the program.
 #### Samson
+* Made function to create a table given the cell size, and number of rows and columns that outputs to the terminal
+* Made function that resizes a string in order to fit into the table
