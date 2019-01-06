@@ -15,7 +15,7 @@ public class CSVRepresentation {
 
     public synchronized String getValue(int column, int row){
         try{
-            return rows.get(row).get(column).toString();
+            return rows.get(row).get(column).getData();
         }catch(IndexOutOfBoundsException e){
             // This means the cell doesn't exists, so we can just return an empty string
             return "";

@@ -60,6 +60,14 @@ public class CSVNode{
     }
 
     /**
+     * Get the data stored in this node. DO NOT call {@link #toString()} to get the data stored inside to show the user.
+     * @return Data stored in the cell
+     */
+    public String getData(){
+        return data;
+    }
+
+    /**
      * This does NOT include the commas to separate each cell. It is formatted in this way:
      * 1. If a cell contains a comma, then wrap the whole cell in “ (double quotes)
      *    w, → “w,”
