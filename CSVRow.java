@@ -56,7 +56,8 @@ public class CSVRow extends LinkedList<CSVNode>{
                     i++;
                 }else{
                     // Single double quote is ignored and means it is the start/end of a cell
-                    if(cellStringRepresentation == null){
+                    // Have to check length too because a quote may start a line in the csv file
+                    if(cellStringRepresentation == null || cellStringRepresentation.length() == 0){
                         // This mean it is the start the first row
                         // So the csv string might look like --> "asd,",banana
                         cellStringRepresentation = new StringBuilder();
