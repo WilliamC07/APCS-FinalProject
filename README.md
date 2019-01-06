@@ -41,6 +41,10 @@ Group 19
 * Can show the table created by Samson onto the terminal
 * Screen freshes on keystroke or when the terminal is resized to prevent flickering
 * Added instructions to run the program.
+* Added onto Samson code to allow data from a csv value to fit in
+* Fixed the bugs I made in CSVNode and CSVRow toString and converting a string back to an object.
+* Fixed the bug I made of not calling the right method (used toString() which gives the raw data(the one stored to disk) not the processed one(the one to show to the user).
+
 #### Samson
 * Made function to create a table given the cell size, and number of rows and columns that outputs to the terminal
 * Made function that resizes a string in order to fit into the table
