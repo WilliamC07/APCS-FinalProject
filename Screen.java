@@ -131,14 +131,14 @@ public class Screen extends Thread {
         String s = "";
         for (int row = 0; row < rows; row++) {
             // Divide by two since every other line shows information
-            int csvRow = startRow + row / 2;
+            int csvRow = startRow.get() + row / 2;
             // Every other row has a dashed line (starting with row 1)
             if(row % 2 == 0){
                 s += repeat("-", columns);
             }else{
                 // All other lines are able to fit data and a divider
                 for (int column = 0; column < columns;) {
-                    int csvColumn = startColumn + column / (cellspacing + 1);
+                    int csvColumn = startColumn.get() + column / (cellspacing + 1);
                     // Check if we can fit a cell, add one because we need to fit a divider
                     if(columns - column + 1 < cellspacing){
                         // Cannot fit another column, so just use up remaining space
