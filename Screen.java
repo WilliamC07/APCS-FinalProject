@@ -1,15 +1,19 @@
 import com.googlecode.lanterna.TerminalFacade;
 import com.googlecode.lanterna.input.Key;
+import static com.googlecode.lanterna.input.Key.Kind;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.TerminalSize;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Screen extends Thread {
     private final CSVRepresentation csvRepresentation;
     private volatile boolean requestScreenUpdate = false;
     /**
-     * Initializes value of one. This is the top left cell of the screen.
+     * Initializes value of one. This is the top left cell of the screen. Atomic Integer to ensure that
+     * there is no thread mess up.
      */
-    private volatile int startRow = 0, startColumn = 0;
+    private volatile AtomicInteger startRow = new AtomicInteger(), startColumn = new AtomicInteger();
     private final CommandBuilder commandBuilder;
 
     /**
