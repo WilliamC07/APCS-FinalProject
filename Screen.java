@@ -50,7 +50,32 @@ public class Screen extends Thread {
             Key key = terminal.readInput();
             if (key != null) {
                 // Process the remaining keys
-
+                switch(key.getKind()){
+                    case Escape:
+                        terminal.exitPrivateMode();
+                        isRunning = false;
+                        // TODO: Save all edits done
+                        break;
+                    case ArrowUp:
+                        // Can't make another row by going upwards
+                        startRow.addAndGet(startRow.get() == 0 ? 0 : -1);
+                        break;
+                    case ArrowDown:
+                        // Can make an **infinite** amount of cells downwards
+                        startRow.addAndGet(1);
+                    case ArrowLeft:
+                        // Cannot make infinite amount of cells to the left
+                        startColumn.addAndGet(startColumn.get() == 0 ? 0 : -1);
+                        break;
+                    case ArrowRight:
+                        // Can make an **infinite** amount of cells to the right
+                        startColumn.addAndGet(1);
+                        break;
+                    case NormalKey:
+                    case Enter:
+                        commandBuilder.addChar(key);
+                        break;
+                }
 
                 // Only update the view if there is something to update
                 updateScreen(terminal);
