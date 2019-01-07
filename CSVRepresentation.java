@@ -1,4 +1,5 @@
 import java.nio.file.Path;
+import java.util.ArrayDeque;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -6,11 +7,16 @@ public class CSVRepresentation {
     private final Path pathToCSV;
     private final CSVAccess csvAccess;
     private final LinkedList<CSVRow> rows;
+    private final ArrayDeque<Command> commands = new ArrayDeque<>();
+    private final HandleCommand handleCommand;
+    private final CommandBuilder commandBuilder;
 
     public CSVRepresentation(Path pathToCSV){
         this.pathToCSV = pathToCSV;
         this.csvAccess = new CSVAccess(pathToCSV);
         this.rows = readCSV();
+        this.handleCommand = new HandleCommand(this);
+        this.commandBuilder = new CommandBuilder(handleCommand);
     }
 
     public synchronized String getValue(int column, int row){
@@ -35,4 +41,11 @@ public class CSVRepresentation {
         return rows;
     }
 
+    public void pushCommand(Command command){
+
+    }
+
+    public CommandBuilder getCommandBuilder(){
+        return this.commandBuilder;
+    }
 }

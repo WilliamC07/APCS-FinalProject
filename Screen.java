@@ -3,8 +3,6 @@ import com.googlecode.lanterna.input.Key;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.TerminalSize;
 
-import java.util.ArrayDeque;
-
 public class Screen extends Thread {
     private final CSVRepresentation csvRepresentation;
     private volatile boolean requestScreenUpdate = false;
@@ -12,6 +10,7 @@ public class Screen extends Thread {
      * Initializes value of one. This is the top left cell of the screen.
      */
     private volatile int startRow = 0, startColumn = 0;
+    private final CommandBuilder commandBuilder;
 
     /**
      * Constructor
@@ -20,6 +19,7 @@ public class Screen extends Thread {
      */
     public Screen(CSVRepresentation csvRepresentation) {
         this.csvRepresentation = csvRepresentation;
+        this.commandBuilder = csvRepresentation.getCommandBuilder();
     }
 
     /**
@@ -45,6 +45,9 @@ public class Screen extends Thread {
             // Process the keystrokes if there are any
             Key key = terminal.readInput();
             if (key != null) {
+                // Process the remaining keys
+
+
                 // Only update the view if there is something to update
                 updateScreen(terminal);
             }
