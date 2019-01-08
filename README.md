@@ -53,4 +53,8 @@ Group 19
 * Made skeleton involving how commands will be stored
 * Added ability to scroll using arrow keys
 * Can turn user key strokes into String
+### 1/8/19
+#### William
+
 #### Samson
+* Wrote function where if user writes set and parameters, it is handled (untested)
