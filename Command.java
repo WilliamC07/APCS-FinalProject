@@ -12,14 +12,14 @@ public class Command {
      * Constructs an command
      * @param oldValue Previous value
      * @param newValue New value
-     * @param row Row of edit done to
      * @param column Column of edit done to
+     * @param row Row of edit done to
      */
-    public Command(String oldValue, String newValue, int row, int column) {
+    public Command(String oldValue, String newValue, int column, int row) {
         this.oldValue = oldValue;
         this.newValue = newValue;
-        this.row = row;
         this.column = column;
+        this.row = row;
     }
 
     public String getOldValue() {
