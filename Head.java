@@ -8,7 +8,7 @@ public class Head{
     private final Screen screen;
 
     public Head(Path pathToCSV){
-        this.csvRepresentation = new CSVRepresentation(pathToCSV);
+        this.csvRepresentation = new CSVRepresentation(pathToCSV, this);
         screen = new Screen(csvRepresentation);
 
         // Start threads
