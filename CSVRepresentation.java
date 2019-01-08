@@ -41,9 +41,21 @@ public class CSVRepresentation {
         return rows;
     }
 
+    /**
+     * Add a command done by the user onto the stack and do those edits onto the screen. Also tells the screen to
+     * update to the lastest changes.
+     * @param command
+     */
     public void pushCommand(Command command){
-
+        // Add the command to the stack for undo
+        commands.push(command);
+        // Make the edit happen
+        rows.get(command.getRow()).set(command.getColumn(), CSVNode.newInstance(command.getNewValue()));
+        // Screen update
+        // TODO: screen update
     }
+
+
 
     public CommandBuilder getCommandBuilder(){
         return this.commandBuilder;
