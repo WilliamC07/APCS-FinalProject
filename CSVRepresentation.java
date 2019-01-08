@@ -10,9 +10,11 @@ public class CSVRepresentation {
     private final ArrayDeque<Command> commands = new ArrayDeque<>();
     private final HandleCommand handleCommand;
     private final CommandBuilder commandBuilder;
+    private final Head head;
 
-    public CSVRepresentation(Path pathToCSV){
+    public CSVRepresentation(Path pathToCSV, Head head){
         this.pathToCSV = pathToCSV;
+        this.head = head;
         this.csvAccess = new CSVAccess(pathToCSV);
         this.rows = readCSV();
         this.handleCommand = new HandleCommand(this);
@@ -52,10 +54,8 @@ public class CSVRepresentation {
         // Make the edit happen
         rows.get(command.getRow()).set(command.getColumn(), CSVNode.newInstance(command.getNewValue()));
         // Screen update
-        // TODO: screen update
+        head.updateScreen();
     }
-
-
 
     public CommandBuilder getCommandBuilder(){
         return this.commandBuilder;
