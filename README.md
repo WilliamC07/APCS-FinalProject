@@ -48,3 +48,9 @@ Group 19
 #### Samson
 * Made function to create a table given the cell size, and number of rows and columns that outputs to the terminal
 * Made function that resizes a string in order to fit into the table
+### 1/7/19:
+#### William
+* Made skeleton involving how commands will be stored
+* Added ability to scroll using arrow keys
+* Can turn user key strokes into String
+#### Samson
