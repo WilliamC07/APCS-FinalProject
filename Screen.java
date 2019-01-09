@@ -67,6 +67,7 @@ public class Screen extends Thread {
                         startColumn.addAndGet(1);
                         break;
                     case NormalKey:
+                    case Backspace:
                     case Enter:
                         // Make the command
                         commandBuilder.addChar(key);
