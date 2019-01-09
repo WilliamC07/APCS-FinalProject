@@ -60,3 +60,9 @@ Group 19
 * Use a stack to store changes done on the csv file
 #### Samson
 * Wrote function where if user writes set and parameters, it is handled (untested)
+### 1/9/19
+#### William
+
+#### Samson
+* Wrote functions that handle the user wanting to swap the values of 2 cells as well as adding the values of multiple cells
+* Added comments, both javadoc style and regular to HandleCommand
