@@ -55,6 +55,8 @@ Group 19
 * Can turn user key strokes into String
 ### 1/8/19
 #### William
-
+* Process in printing to terminal using Screen rather than Terminal for readability and to fix most bugs from printing line by line
+* Continue to enfore the idea of a parent-child controller to make the code more reabable and maintainable
+* Use a stack to store changes done on the csv file
 #### Samson
 * Wrote function where if user writes set and parameters, it is handled (untested)
