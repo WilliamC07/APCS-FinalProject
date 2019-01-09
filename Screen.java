@@ -34,26 +34,22 @@ public class Screen extends Thread {
     public void run() {
         Terminal terminal = TerminalFacade.createTextTerminal();
         com.googlecode.lanterna.screen.Screen screen = new com.googlecode.lanterna.screen.Screen(terminal);
+        // Enter private mode and start the showing for the program
         screen.startScreen();
+
+        // Show the file to the user
         updateScreen(screen);
-        boolean isRunning = false;
-        while(true){
-
-        }
-
-        /*// Show the table onto the screen
-        updateScreen(screen);
-
+        boolean isRunning = true;
         while (isRunning) {
-            // Process the keystrokes if there are any
+            // Process keystroke
             Key key = terminal.readInput();
+            // If there is a keystroke, then update the screen and handle the keypress
             if (key != null) {
-                // Process the remaining keys
-                switch(key.getKind()){
+                switch (key.getKind()) {
                     case Escape:
-                        terminal.exitPrivateMode();
-                        isRunning = false;
-                        // TODO: Save all edits done
+                        screen.stopScreen();
+                        isRunning = false; // stop the thread
+                        //TODO: Save all edits done
                         break;
                     case ArrowUp:
                         // Can't make another row by going upwards
@@ -74,25 +70,19 @@ public class Screen extends Thread {
                     case Enter:
                         // Make the command
                         commandBuilder.addChar(key);
-                        // Show the command on the screen
-                        terminal.putCharacter(key.getCharacter());
                         break;
                 }
+
+                // update the screen with the latest content
+                updateScreen(screen);
             }
 
-            // Update the screen if a function requests it
-            if(requestScreenUpdate){
-                //updateScreen(terminal);
+            // update the screen if it has been requested by another part of the program
+            if (requestScreenUpdate) {
+                updateScreen(screen);
                 requestScreenUpdate = false; // only update it once per request
             }
-
-            // Sleep so the program doesn't take up the entire cpu
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                // Do nothing
-            }
-        }*/
+        }
     }
 
     /**
@@ -118,7 +108,8 @@ public class Screen extends Thread {
             screen.putString(0, row, csvGrid[row], null, null);
         }
 
-        screen.putString(0, size.getRows(), commandBuilder.toString(), null, null);
+        // Subtract one so it goes to the bottom of the screen
+        screen.putString(0, size.getRows() - 1, commandBuilder.toString(), null, null);
 
         // Prevents flickering for larger screens when terminal is enlarged
         screen.completeRefresh();
