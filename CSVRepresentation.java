@@ -44,6 +44,14 @@ public class CSVRepresentation {
     }
 
     /**
+     * Saves the CSV file onto disk using the original location provided by the user {@link #pathToCSV}.
+     * TODO: Handle what happens if it can't be saved
+     */
+    public void save(){
+        csvAccess.saveCSV(rows);
+    }
+
+    /**
      * Add a command done by the user onto the stack and do those edits onto the screen. Also tells the screen to
      * update to the lastest changes.
      * @param command
