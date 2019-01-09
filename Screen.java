@@ -42,13 +42,16 @@ public class Screen extends Thread {
 
         while (isRunning) {
             // Refresh the view if the terminal has been resized
-            if(!terminal.getTerminalSize().equals(terminalSize)){
+            /*if(!terminal.getTerminalSize().equals(terminalSize)){
                 updateScreen(terminal);
-            }
+            }*/
 
             // Process the keystrokes if there are any
             Key key = terminal.readInput();
             if (key != null) {
+                // Only update the view if there is something to update
+                updateScreen(terminal);
+
                 // Process the remaining keys
                 switch(key.getKind()){
                     case Escape:
@@ -73,12 +76,12 @@ public class Screen extends Thread {
                         break;
                     case NormalKey:
                     case Enter:
+                        // Make the command
                         commandBuilder.addChar(key);
+                        // Show the command on the screen
+                        terminal.putCharacter(key.getCharacter());
                         break;
                 }
-
-                // Only update the view if there is something to update
-                updateScreen(terminal);
             }
 
             // Update the screen if a function requests it
@@ -118,6 +121,12 @@ public class Screen extends Thread {
         String table = getTable(terminal.getTerminalSize().getColumns(), terminal.getTerminalSize().getRows(), 10);
         for (int i = 0; i < table.length(); i++) {
             terminal.putCharacter(table.charAt(i));
+        }
+
+        // Add the text the user writes to the screen
+        String command = commandBuilder.toString();
+        for(int i = 0; i < command.length(); i++){
+            terminal.putCharacter(command.charAt(i));
         }
 
         // Prevents flickering for larger screens when terminal is enlarged
