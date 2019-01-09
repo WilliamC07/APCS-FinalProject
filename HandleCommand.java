@@ -7,13 +7,27 @@ public class HandleCommand {
         this.csvRepresentation = csvRepresentation;
     }
 
+    public void handle(String command){
+        String[] elements = command.split(" ");
+        // Make it upper case for easier comparison
+        switch(elements[0].toUpperCase()){
+            case "SET":
+            {
+                set(Integer.parseInt(elements[1]), Integer.parseInt(elements[2]), elements[3]);
+            }
+                break;
+            default:
+                // Don't know what kind of command, TODO: Tell the user
+        }
+    }
+
     /**
      * Sets the value of a cell to the value given by the user
      * @param column The column where the user wants the new value
      * @param row    The row where the user wants the new value
      * @param value  The new value the user wants
      */
-    public void set(int column, int row, String value){
+    private void set(int column, int row, String value){
       Command c = new Command(csvRepresentation.getValue(column,row), value, column, row);
       csvRepresentation.pushCommand(c);
     }
@@ -25,7 +39,7 @@ public class HandleCommand {
      * @param columnNew The column of the second value
      * @param rowNew    The row of the second value
      */
-    public void swap(int columnOld, int rowOld, int columnNew, int rowNew){
+    private void swap(int columnOld, int rowOld, int columnNew, int rowNew){
       //This string keeps track of the value of the first cell
       String oldval = csvRepresentation.getValue(columnOld,rowOld);
       //This string keeps track of the value of the second cell
@@ -43,7 +57,7 @@ public class HandleCommand {
      * @param storeCol  The column of the cell where the user wants the sum stored
      * @param storeRow  The row of the cell where the user wants the sum stored
      */
-    public void add(int[] cellParts, int storeCol, int storeRow){
+    private void add(int[] cellParts, int storeCol, int storeRow){
       int sum = 0;
       //keeps track of the old value of the cell where the sum will be stored
       String oldval = csvRepresentation.getValue(storeCol,storeRow);

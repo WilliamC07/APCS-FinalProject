@@ -16,7 +16,7 @@ public class CommandBuilder {
         switch(key.getKind()){
             case Enter:
                 // make the command
-                System.out.println(builder);
+                handleCommand.handle(builder.toString());
                 builder = new StringBuilder();
                 break;
             case Backspace:
