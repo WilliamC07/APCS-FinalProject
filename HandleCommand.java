@@ -12,4 +12,13 @@ public class HandleCommand {
       csvRepresentation.pushCommand(c);
     }
 
+    public void swap(int columnOld, int rowOld, int columnNew, int rowNew){
+      String oldval = csvRepresentation.getValue(columnOld,rowOld);
+      String newval = csvRepresentation.getValue(columnNew, rowNew);
+      Command c = new Command(oldval, newval, columnNew , rowNew);
+      Command d = new Command(newval, oldval, columnOld, rowOld);
+      csvRepresentation.pushCommand(c);
+      csvRepresentation.pushCommand(d);
+    }
+
 }
