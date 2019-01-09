@@ -19,9 +19,12 @@ public class CommandBuilder {
                 System.out.println(builder);
                 builder = new StringBuilder();
                 break;
-            case Delete:
-                // Will delete the last character
-                builder.deleteCharAt(builder.length() - 1);
+            case Backspace:
+                // Will delete the last character (won't delete if there is nothing)
+                if(builder.length() != 0){
+                    builder.deleteCharAt(builder.length() - 1);
+                }
+                break;
             default:
                 builder.append(key.getCharacter());
         }
