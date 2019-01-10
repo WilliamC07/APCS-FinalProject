@@ -49,7 +49,7 @@ public class Screen extends Thread {
                     case Escape:
                         screen.stopScreen();
                         isRunning = false; // stop the thread
-                        //TODO: Save all edits done
+                        csvRepresentation.save();
                         break;
                     case ArrowUp:
                         // Can't make another row by going upwards

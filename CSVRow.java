@@ -110,15 +110,21 @@ public class CSVRow extends LinkedList<CSVNode>{
     public String toString(){
         StringBuilder builder = new StringBuilder();
         char quote = '"';
-        int amountOfCellsAdded = 0;
-        for(CSVNode node : this){
-            builder.append(quote).append(node.toString()).append(quote);
+        int amountOfCellsAdded = 0;  // Keep track of amount of cells so all rows have equal amount of columns
+        for(int i = 0; i < size(); i++){
+            CSVNode node = get(i);
+            builder.append(node.toString());
+
+            // add quotes only if it is not the last cell of the row
+            if(i < size() - 1){
+                builder.append(quote);
+            }
+
             amountOfCellsAdded++;
         }
-
         // Need to add empty cells to make the csv complete by adding commas
         while(amountOfCellsAdded != largestRowSize){
-            builder.append(quote);
+            builder.append(',');
             amountOfCellsAdded++;
         }
 
