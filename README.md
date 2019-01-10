@@ -64,6 +64,8 @@ Group 19
 #### William
 * Finished using screen.putString() to display text
 * Bug fixed the command builder not erasing characters (confused backspace and delete)
+* Fixed bugs in saving the csv file to disk (too many quotes and comma)
+* Fixed bug of crashing the program when adding a new cell/row
 #### Samson
 * Wrote functions that handle the user wanting to swap the values of 2 cells as well as adding the values of multiple cells
 * Added comments, both javadoc style and regular to HandleCommand
