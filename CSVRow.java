@@ -24,6 +24,18 @@ public class CSVRow extends LinkedList<CSVNode>{
     }
 
     @Override
+    public CSVNode set(int index, CSVNode n){
+        // Add additional cells
+        while(index >= size()){
+            // Blank cell
+            add(CSVNode.newInstance(""));
+        }
+
+        updateLargestRowSize();
+        return super.set(index, n);
+    }
+
+    @Override
     public CSVNode remove(int index){
         CSVNode removedNode = super.remove(index);
         updateLargestRowSize();
@@ -102,6 +114,10 @@ public class CSVRow extends LinkedList<CSVNode>{
         return row;
     }
 
+    public static CSVRow createEmptyRow(){
+        return new CSVRow();
+    }
+
     /**
      * Converts the given row into a string. If the row isn't long enough, it will add extra commas.
      * @return String representation of this row
@@ -109,22 +125,22 @@ public class CSVRow extends LinkedList<CSVNode>{
     @Override
     public String toString(){
         StringBuilder builder = new StringBuilder();
-        char quote = '"';
+        char comma = ',';
         int amountOfCellsAdded = 0;  // Keep track of amount of cells so all rows have equal amount of columns
         for(int i = 0; i < size(); i++){
             CSVNode node = get(i);
             builder.append(node.toString());
 
-            // add quotes only if it is not the last cell of the row
+            // add commas only if it is not the last cell of the row
             if(i < size() - 1){
-                builder.append(quote);
+                builder.append(comma);
             }
 
             amountOfCellsAdded++;
         }
         // Need to add empty cells to make the csv complete by adding commas
         while(amountOfCellsAdded != largestRowSize){
-            builder.append(',');
+            builder.append(comma);
             amountOfCellsAdded++;
         }
 

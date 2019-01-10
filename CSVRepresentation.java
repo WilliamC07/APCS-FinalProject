@@ -60,7 +60,12 @@ public class CSVRepresentation {
         // Add the command to the stack for undo
         commands.push(command);
         // Make the edit happen
-        rows.get(command.getRow()).set(command.getColumn(), CSVNode.newInstance(command.getNewValue()));
+        int column = command.getColumn();
+        int row = command.getRow();
+        while(row >= rows.size()){
+            rows.add(CSVRow.createEmptyRow());
+        }
+        rows.get(row).set(column, CSVNode.newInstance(command.getNewValue()));
         // Screen update
         head.updateScreen();
     }
