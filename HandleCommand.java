@@ -26,6 +26,16 @@ public class HandleCommand {
               add(Integer.parseInt(elements[1]),Integer.parseInt(elements[2]),Integer.parseInt(elements[3]),Integer.parseInt(elements[4]),Integer.parseInt(elements[5]),Integer.parseInt(elements[6]));
             }
                 break;
+            case "MULTIPLY":
+            {
+              multiply(Integer.parseInt(elements[1]),Integer.parseInt(elements[2]),Integer.parseInt(elements[3]),Integer.parseInt(elements[4]),Integer.parseInt(elements[5]),Integer.parseInt(elements[6]));
+            }
+                break;
+            case "DIVIDE":
+            {
+              division(Integer.parseInt(elements[1]),Integer.parseInt(elements[2]),Integer.parseInt(elements[3]),Integer.parseInt(elements[4]),Integer.parseInt(elements[5]),Integer.parseInt(elements[6]));
+            }
+                break;
             default:
                 // Don't know what kind of command, TODO: Tell the user
         }
@@ -62,10 +72,13 @@ public class HandleCommand {
     }
 
     /**
-     * Adds the values of the given cells
-     * @param cellParts An integer array where the even indexes contains the columns of the cell and the odd indexes contain the rows of the cells
-     * @param storeCol  The column of the cell where the user wants the sum stored
-     * @param storeRow  The row of the cell where the user wants the sum stored
+     * Adds the 2 given cells and stores value in third given cell
+     * @param col1     Column of first cell
+     * @param row1     Row of first cell
+     * @param col2     Column of second cell
+     * @param row2     Row of second cell
+     * @param storeCol Column of cell where data will be stored
+     * @param storeRow Row of cell where data will be stored
      */
     private void add(int col1, int row1, int col2, int row2, int storeCol, int storeRow){
       //keeps track of the old value of the cell where the sum will be stored
@@ -77,4 +90,26 @@ public class HandleCommand {
       Command c = new Command(oldval, s , storeCol, storeRow);
       csvRepresentation.pushCommand(c);
     }
+
+    private void multiply(int col1, int row1, int col2, int row2, int storeCol, int storeRow){
+      String oldval = csvRepresentation.getValue(storeCol,storeRow);
+      String num1 = csvRepresentation.getValue(col1,row1);
+      String num2 = csvRepresentation.getValue(col2,row2);
+      double product = (double)Integer.parseInt(num1) * (double)Integer.parseInt(num2);
+      String s = product + "";
+      Command c = new Command(oldval, s , storeCol, storeRow);
+      csvRepresentation.pushCommand(c);
+    }
+
+    private void division(int col1, int row1, int col2, int row2, int storeCol, int storeRow){
+      String oldval = csvRepresentation.getValue(storeCol,storeRow);
+      String num1 = csvRepresentation.getValue(col1,row1);
+      String num2 = csvRepresentation.getValue(col2,row2);
+      double quotient = (double)Integer.parseInt(num1) / (double)Integer.parseInt(num2);
+      String s = quotient + "";
+      Command c = new Command(oldval, s , storeCol, storeRow);
+      csvRepresentation.pushCommand(c);
+    }
+
+
   }
