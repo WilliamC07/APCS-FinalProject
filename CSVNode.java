@@ -82,24 +82,28 @@ public class CSVNode{
     public String toString(){
         // Use a StringBuilder because it is more efficient when appending characters in a loop
         StringBuilder returnString = new StringBuilder();
-        char quoteCharacter = '"';
+        boolean needsWrap = false;
+        final char quoteCharacter = '"';
 
         for(int i = 0; i < data.length(); i++){
             char characterAtIndex = data.charAt(i);
             switch(characterAtIndex){
-                case '\"':
+                case quoteCharacter:
                     // If the user types in a double quote, it becomes two double quotes
                     returnString.append(quoteCharacter).append(quoteCharacter);
+                    needsWrap = true;
                     break;
                 case ',':
                     // If the user types in a comma, the whole cell needs to be wrapped
-                    returnString.insert(0, quoteCharacter).append(",").append(quoteCharacter);
-                    break;
+                    needsWrap = true;
+                    // fallthrough to add the comma
                 default:
                     returnString.append(characterAtIndex);
             }
         }
 
-        return returnString.toString();
+        return needsWrap ?
+                String.format("%c%s%c", quoteCharacter, returnString, quoteCharacter) :
+                returnString.toString();
     }
 }
