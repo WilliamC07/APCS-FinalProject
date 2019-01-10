@@ -24,6 +24,18 @@ public class CSVRow extends LinkedList<CSVNode>{
     }
 
     @Override
+    public CSVNode set(int index, CSVNode n){
+        // Add additional cells
+        while(index >= size()){
+            // Blank cell
+            add(CSVNode.newInstance(""));
+        }
+
+        updateLargestRowSize();
+        return super.set(index, n);
+    }
+
+    @Override
     public CSVNode remove(int index){
         CSVNode removedNode = super.remove(index);
         updateLargestRowSize();
@@ -100,6 +112,10 @@ public class CSVRow extends LinkedList<CSVNode>{
         }
 
         return row;
+    }
+
+    public static CSVRow createEmptyRow(){
+        return new CSVRow();
     }
 
     /**
