@@ -11,6 +11,7 @@ public class HandleCommand {
         String[] elements = command.split(" ");
         // Make it upper case for easier comparison
         switch(elements[0].toUpperCase()){
+          //checks what the user wants to do and handles them accordingly
             case "SET":
             {
                 set(Integer.parseInt(elements[1]), Integer.parseInt(elements[2]), elements[3]);
@@ -72,7 +73,7 @@ public class HandleCommand {
     }
 
     /**
-     * Adds the 2 given cells and stores value in third given cell
+     * Adds the values inside 2 given cells into the 3rd cell.
      * @param col1     Column of first cell
      * @param row1     Row of first cell
      * @param col2     Column of second cell
@@ -83,28 +84,54 @@ public class HandleCommand {
     private void add(int col1, int row1, int col2, int row2, int storeCol, int storeRow){
       //keeps track of the old value of the cell where the sum will be stored
       String oldval = csvRepresentation.getValue(storeCol,storeRow);
+      //num1 and num2 keep track of the values of the data in the cells
       String num1 = csvRepresentation.getValue(col1,row1);
       String num2 = csvRepresentation.getValue(col2,row2);
+      //finds the sum as an int and then converted into a string
       int sum = Integer.parseInt(num1) + Integer.parseInt(num2);
       String s = sum + "";
       Command c = new Command(oldval, s , storeCol, storeRow);
       csvRepresentation.pushCommand(c);
     }
 
+    /**
+     * Multiplies the values inside 2 given cells into the 3rd cell.
+     * @param col1     Column of first cell
+     * @param row1     Row of first cell
+     * @param col2     Column of second cell
+     * @param row2     Row of second cell
+     * @param storeCol Column of cell where data will be stored
+     * @param storeRow Row of cell where data will be stored
+     */
     private void multiply(int col1, int row1, int col2, int row2, int storeCol, int storeRow){
+      //keeps track of the old value of the cell that will be replaced
       String oldval = csvRepresentation.getValue(storeCol,storeRow);
+      //num1 and num2 keep track of the values of the data in the cells
       String num1 = csvRepresentation.getValue(col1,row1);
       String num2 = csvRepresentation.getValue(col2,row2);
+      //finds the product as an int and then converted into a string
       double product = (double)Integer.parseInt(num1) * (double)Integer.parseInt(num2);
       String s = product + "";
       Command c = new Command(oldval, s , storeCol, storeRow);
       csvRepresentation.pushCommand(c);
     }
 
+    /**
+     * Divides the values inside 2 given cells into the 3rd cell.
+     * @param col1     Column of first cell
+     * @param row1     Row of first cell
+     * @param col2     Column of second cell
+     * @param row2     Row of second cell
+     * @param storeCol Column of cell where data will be stored
+     * @param storeRow Row of cell where data will be stored
+     */
     private void division(int col1, int row1, int col2, int row2, int storeCol, int storeRow){
+      //keeps track of the old value of the cell that will be replaced
       String oldval = csvRepresentation.getValue(storeCol,storeRow);
+      //num1 and num2 keep track of the values of the data in the cells
       String num1 = csvRepresentation.getValue(col1,row1);
       String num2 = csvRepresentation.getValue(col2,row2);
+      //finds the quotient as an int and then converted into a string
       double quotient = (double)Integer.parseInt(num1) / (double)Integer.parseInt(num2);
       String s = quotient + "";
       Command c = new Command(oldval, s , storeCol, storeRow);
