@@ -41,6 +41,11 @@ public class Screen extends Thread {
         updateScreen(screen);
         boolean isRunning = true;
         while (isRunning) {
+            // If the screen resized, we need to redraw the board
+            if(screen.updateScreenSize()){
+                updateScreen(screen);
+            }
+
             // Process keystroke
             Key key = terminal.readInput();
             // If there is a keystroke, then update the screen and handle the keypress
