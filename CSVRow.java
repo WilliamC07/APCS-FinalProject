@@ -1,11 +1,10 @@
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
  * Each object of this class represents each row of the CSV file.
  */
 public class CSVRow extends LinkedList<CSVNode>{
-    public static int largestRowSize = 0;
-
     private CSVRow(){
 
     }
@@ -13,14 +12,12 @@ public class CSVRow extends LinkedList<CSVNode>{
     @Override
     public boolean add(CSVNode n){
         super.add(n);
-        updateLargestRowSize();
         return true;
     }
 
     @Override
     public void add(int index, CSVNode n){
         super.add(index, n);
-        updateLargestRowSize();
     }
 
     @Override
@@ -31,19 +28,13 @@ public class CSVRow extends LinkedList<CSVNode>{
             add(CSVNode.newInstance(""));
         }
 
-        updateLargestRowSize();
         return super.set(index, n);
     }
 
     @Override
     public CSVNode remove(int index){
         CSVNode removedNode = super.remove(index);
-        updateLargestRowSize();
         return removedNode;
-    }
-
-    private void updateLargestRowSize(){
-        largestRowSize = size() > largestRowSize ? size() : largestRowSize;
     }
 
     /**
@@ -119,11 +110,20 @@ public class CSVRow extends LinkedList<CSVNode>{
     }
 
     /**
+     * Removes all cells at the end of the list that does not contain data (empty string)
+     */
+    public void simplify(){
+        CSVNode last;
+        while((last = peekLast()) != null && last.getData().equals("")){
+            pollLast();
+        }
+    }
+
+    /**
      * Converts the given row into a string. If the row isn't long enough, it will add extra commas.
      * @return String representation of this row
      */
-    @Override
-    public String toString(){
+    public String getFileRepresentation(int largestRowSize){
         StringBuilder builder = new StringBuilder();
         char comma = ',';
         int amountOfCellsAdded = 0;  // Keep track of amount of cells so all rows have equal amount of columns
