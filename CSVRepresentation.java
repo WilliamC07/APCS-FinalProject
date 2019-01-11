@@ -56,7 +56,7 @@ public class CSVRepresentation {
      * update to the lastest changes.
      * @param command
      */
-    public void pushCommand(Command command){
+    public synchronized void pushCommand(Command command){
         // Add the command to the stack for undo
         commands.push(command);
         // Make the edit happen
