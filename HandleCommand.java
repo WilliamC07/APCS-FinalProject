@@ -37,6 +37,12 @@ public class HandleCommand {
               division(Integer.parseInt(elements[1]),Integer.parseInt(elements[2]),Integer.parseInt(elements[3]),Integer.parseInt(elements[4]),Integer.parseInt(elements[5]),Integer.parseInt(elements[6]));
             }
                 break;
+            case "REMOVE":
+            case "RM":
+            {
+                remove(Integer.parseInt(elements[1]), Integer.parseInt(elements[2]));
+            }
+                break;
             default:
                 // Don't know what kind of command, TODO: Tell the user
         }
@@ -138,5 +144,13 @@ public class HandleCommand {
       csvRepresentation.pushCommand(c);
     }
 
-
+    /**
+     * Removes the cell at the given row and column
+     * @param col Column of element to be removed
+     * @param row Row of the element to be removed
+     */
+    private void remove(int col, int row){
+        String old = csvRepresentation.getValue(col, row);
+        csvRepresentation.pushCommand(new Command(old, "", col, row));
+    }
   }
