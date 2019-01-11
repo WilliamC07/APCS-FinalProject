@@ -43,6 +43,9 @@ public class HandleCommand {
                 remove(Integer.parseInt(elements[1]), Integer.parseInt(elements[2]));
             }
                 break;
+            case "UNDO":
+                csvRepresentation.undo();
+                break;
             default:
                 // Don't know what kind of command, TODO: Tell the user
         }

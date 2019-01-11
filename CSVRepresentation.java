@@ -60,14 +60,37 @@ public class CSVRepresentation {
         // Add the command to the stack for undo
         commands.push(command);
         // Make the edit happen
-        int column = command.getColumn();
-        int row = command.getRow();
+        update(command.getColumn(), command.getRow(), command.getNewValue());
+
+        // Screen update
+        head.updateScreen();
+    }
+
+    /**
+     * Update the cell at the given row and column to the new value provided. This will create any preceding row(s) or
+     * previous column(s).
+     * @param col Column of the cell to update the value
+     * @param row Row of the cell to update the value
+     * @param value New value to put in the cell
+     */
+    private void update(int col, int row, String value){
         while(row >= rows.size()){
             rows.add(CSVRow.createEmptyRow());
         }
-        rows.get(row).set(column, CSVNode.newInstance(command.getNewValue()));
-        // Screen update
-        head.updateScreen();
+        rows.get(row).set(col, CSVNode.newInstance(value));
+    }
+
+    /**
+     * Removes the last command done and reverts the changes. This does not add to the stack of commands, it undo and
+     * the edit is lost forever. If there isn't an edit done, nothing happens.
+     */
+    public void undo(){
+        Command lastEdit = commands.poll();
+        // If there isn't a command to undo, don't do anything
+        if(lastEdit == null){
+            return;
+        }
+        update(lastEdit.getColumn(), lastEdit.getRow(), lastEdit.getOldValue());
     }
 
     public CommandBuilder getCommandBuilder(){
