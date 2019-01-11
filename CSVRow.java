@@ -20,6 +20,15 @@ public class CSVRow extends LinkedList<CSVNode>{
         return super.set(index, n);
     }
 
+    @Override
+    public CSVNode remove(int index){
+        // Do nothing if it goes out of bounds
+        if(index < 0 || index >= size()){
+            return null;
+        }
+        return super.remove(index);
+    }
+
     /**
      * Creates a new row given the string representation of the row. A comma is used to separate cells.
      * @param rowStringRepresentation The string representation of the row
