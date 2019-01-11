@@ -10,17 +10,6 @@ public class CSVRow extends LinkedList<CSVNode>{
     }
 
     @Override
-    public boolean add(CSVNode n){
-        super.add(n);
-        return true;
-    }
-
-    @Override
-    public void add(int index, CSVNode n){
-        super.add(index, n);
-    }
-
-    @Override
     public CSVNode set(int index, CSVNode n){
         // Add additional cells
         while(index >= size()){
@@ -29,12 +18,6 @@ public class CSVRow extends LinkedList<CSVNode>{
         }
 
         return super.set(index, n);
-    }
-
-    @Override
-    public CSVNode remove(int index){
-        CSVNode removedNode = super.remove(index);
-        return removedNode;
     }
 
     /**
