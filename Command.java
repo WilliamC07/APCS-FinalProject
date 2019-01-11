@@ -9,7 +9,7 @@ public class Command {
     private int column;
 
     /**
-     * Constructs an command
+     * Constructs a command
      * @param oldValue Previous value
      * @param newValue New value
      * @param column Column of edit done to
@@ -22,18 +22,34 @@ public class Command {
         this.row = row;
     }
 
+    /**
+     * Gets the value of the cell
+     * @return A string containing the old data inside the cell
+     */
     public String getOldValue() {
         return oldValue;
     }
 
+    /**
+     * Gets the value of the cell
+     * @return A string containing the new data inside the cell
+     */
     public String getNewValue() {
         return newValue;
     }
 
+    /**
+     * Gets the row of a cell
+     * @return An int that represents the location of the row of the cell
+     */
     public int getRow() {
         return row;
     }
 
+    /**
+     * Gets the column of a cell
+     * @return An int that represents the location of the column of the cell
+     */
     public int getColumn() {
         return column;
     }
