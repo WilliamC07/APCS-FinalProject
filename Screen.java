@@ -132,7 +132,11 @@ public class Screen extends Thread {
         }
 
         // Subtract one so it goes to the bottom of the screen
-        screen.putString(0, size.getRows() - 1, commandBuilder.toString(), null, null);
+        String userInput = commandBuilder.toString();
+        screen.putString(0, size.getRows() - 1, userInput, null, null);
+
+        // Move the cursor to the end of what the user is typing
+        screen.setCursorPosition(userInput.length(), size.getRows() - 1);
 
         // Prevents flickering for larger screens when terminal is enlarged
         screen.completeRefresh();
