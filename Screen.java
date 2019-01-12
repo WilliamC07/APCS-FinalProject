@@ -17,7 +17,7 @@ public class Screen extends Thread {
     /**
      * This is how long it takes for the screen to check if anything needs to be shown to the screen and read key strokes.
      */
-    private final int pauseTime = 100;
+    private final int pauseTime = 5;
     /**
      * Initializes value of one. This is the top left cell of the screen. Atomic Integer to ensure that
      * there is no thread mess up.
