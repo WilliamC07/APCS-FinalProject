@@ -162,16 +162,26 @@ public class Screen extends Thread {
                 StringBuilder rowBuilder = new StringBuilder();
                 for (int column = 0; column < columns;) {
                     int csvColumn = startColumn.get() + column / (cellspacing + 1);
+                    String valueToDisplay;
+                    if(column == 0){
+                        // The left most column is used to display what row the user is looking at (row number)
+                        valueToDisplay = fitSpace(String.valueOf(csvRow), cellspacing);
+                    }else{
+                        // All other columns are used to display content
+                        // Have to subtract 1 because the first column is reserved for displaying the row number
+                        valueToDisplay = fitSpace(csvRepresentation.getValue(csvColumn - 1, csvRow), cellspacing);
+                    }
+
                     // Check if we can fit a cell, add one because we need to fit a divider
                     if(columns - column + 1 < cellspacing){
                         // Cannot fit another column, so just use up remaining space
                         // Don't add a divider since we want to fit as much data as we can
-                        int repeatAmount = columns - column;
-                        rowBuilder.append(fitSpace(csvRepresentation.getValue(csvColumn, csvRow), repeatAmount));
-                        column += repeatAmount;
+                        int spaceLeft = columns - column;
+                        rowBuilder.append(fitSpace(valueToDisplay, spaceLeft));
+                        column += spaceLeft;
                     }else{
                         // Can fit another column
-                        rowBuilder.append(fitSpace(csvRepresentation.getValue(csvColumn, csvRow), cellspacing) + "|");
+                        rowBuilder.append(valueToDisplay).append("|");
                         column += cellspacing + 1; // add one for the divider
                     }
                 }
