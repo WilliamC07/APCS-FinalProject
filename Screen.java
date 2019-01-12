@@ -161,9 +161,14 @@ public class Screen extends Thread {
             }else{
                 // All other lines are able to fit data and a divider
                 StringBuilder rowBuilder = new StringBuilder();
+                // Leave the incrementation to when we print things to the screen because it is easier to understand
+                // that way
                 for (int column = 0; column < columns;) {
                     int csvColumn = startColumn.get() + column / (cellspacing + 1);
                     String valueToDisplay;
+                    // Note: In these conditionals, we are using row and column (that is the position in the terminal,
+                    // not the position in the csv because labeling row and column is always the top or left of the
+                    // terminal
                     if(column == 0 && row == 1){
                         // Do not show anything for the top left cell because there isn't a label there
                         // Zeroth column represents the first cell on the left hand side of the screen
