@@ -131,8 +131,13 @@ public class Screen extends Thread {
             screen.putString(0, row, csvGrid[row], null, null);
         }
 
-        // Subtract one so it goes to the bottom of the screen
         String userInput = commandBuilder.toString();
+        // Cut off the beginning part if the user is typing a string longer than the width of the terminal. Minus one
+        // because the cursor takes up one column as well.
+        if(userInput.length() > size.getColumns() - 1){
+            // Add one so we can fit the cursor
+            userInput = userInput.substring(userInput.length() - size.getColumns() + 1);
+        }
         screen.putString(0, size.getRows() - 1, userInput, null, null);
 
         // Move the cursor to the end of what the user is typing
