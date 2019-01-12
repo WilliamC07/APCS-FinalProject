@@ -69,3 +69,10 @@ Group 19
 #### Samson
 * Wrote functions that handle the user wanting to swap the values of 2 cells as well as adding the values of multiple cells
 * Added comments, both javadoc style and regular to HandleCommand
+### 1/10/19
+#### William
+* When saving, trailing cells (those are cells that do not contain any data and are not added to make each row the same length) are not saved to disk.
+* When saving, trailing rows (those are rows that are empty, or only contains comma, but must not be between rows that contain data) are not saved to disk.
+* Resizing the screen no longer shows characters "randomly" placed and works on fullscreen
+* Finished writing undo
+#### Samson
