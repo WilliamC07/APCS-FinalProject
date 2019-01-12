@@ -155,6 +155,7 @@ public class Screen extends Thread {
             // Divide by two since every other line shows information
             int csvRow = startRow.get() + row / 2;
             // Every other row has a dashed line (starting with row 1)
+
             if(row % 2 == 0){
                 gird[row] = repeat("-", columns);
             }else{
@@ -163,13 +164,23 @@ public class Screen extends Thread {
                 for (int column = 0; column < columns;) {
                     int csvColumn = startColumn.get() + column / (cellspacing + 1);
                     String valueToDisplay;
-                    if(column == 0){
+                    if(column == 0 && row == 1){
+                        // Do not show anything for the top left cell because there isn't a label there
+                        // Zeroth column represents the first cell on the left hand side of the screen
+                        // First row (index 1 not 0) is because the zeroth (index 0) row is always a dashed line, not a cell
+                        valueToDisplay = fitSpace("", cellspacing);
+                    }else if(column == 0){
                         // The left most column is used to display what row the user is looking at (row number)
                         valueToDisplay = fitSpace(String.valueOf(csvRow), cellspacing);
+                    }else if(row == 1){
+                        // The 0th row is always a dashed line, so the text can begin showing in the 1st row
+                        // The top row is used to display what row the user is looking at (column number)
+                        valueToDisplay = fitSpace(String.valueOf(csvColumn), cellspacing);
                     }else{
                         // All other columns are used to display content
                         // Have to subtract 1 because the first column is reserved for displaying the row number
-                        valueToDisplay = fitSpace(csvRepresentation.getValue(csvColumn - 1, csvRow), cellspacing);
+                        // and the first row is reserved for displaying the column number
+                        valueToDisplay = fitSpace(csvRepresentation.getValue(csvColumn - 1, csvRow - 1), cellspacing);
                     }
 
                     // Check if we can fit a cell, add one because we need to fit a divider
