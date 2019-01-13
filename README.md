@@ -76,3 +76,10 @@ Group 19
 * Resizing the screen no longer shows characters "randomly" placed and works on fullscreen
 * Finished writing undo
 #### Samson
+### 1/12/19
+#### William
+* Can now show the row and column index for the user
+* Added Thread.sleep() to refreshing the screen and reading user input to prevent the program from eating the cpu.
+* Moves cursor to the end of what the user is typing
+* If the user types a command longer than the width of the screen, the last x amount of characters will be shown along with the cursor.
+### 1/13/19
