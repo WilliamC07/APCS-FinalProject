@@ -20,6 +20,7 @@ Alternatively, you can compile and run the program yourself. All needed dependen
 * Note: Start typing to enter a command and press enter to push the command. If a command is not valid (give letters for column index, command doesn't exist), nothing will happen.
 * Scrolling: Pressing the arrow keys will move the screen around. You can press the arrow keys while typing.
 * Pressing escape will quit the program and save the file
+* All methods require column to be provided first then the row
 > * `set <column> <row> <value>`  
 > Sets the cell at the given column and row to be the value given. Note that if the cell has a value, it will be overridden without warning.
 > * `undo`
@@ -28,8 +29,11 @@ Alternatively, you can compile and run the program yourself. All needed dependen
 > Swaps the content of two cells
 > * `remove <column> <row>`
 > Deletes the content of the cell
-> `multiple/add/divide <cell 1 column row> <cell 2 column row> <place to store value column and row`
+> `multiple/add/divide/subtract/average <cell 1 column row> <cell 2 column row> <place to store value column and row>`
 > Performs mathematical operation on the given two cells
+> `raise <cell 1 column row> <power>`
+> Performs the mathematical operation of raising the value of the cell to the given power
+
 
 ## Development log
 ### 1/2/19:
