@@ -66,6 +66,9 @@ public class HandleCommand {
               case "UNDO":
                   csvRepresentation.undo();
                   break;
+              case "SHOW":
+                  csvRepresentation.show(Integer.parseInt(elements[1]), Integer.parseInt(elements[2]));
+                  break;
               default:
                   // Don't know what kind of command, TODO: Tell the user
           }

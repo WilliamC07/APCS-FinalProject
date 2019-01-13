@@ -93,6 +93,15 @@ public class CSVRepresentation {
         update(lastEdit.getColumn(), lastEdit.getRow(), lastEdit.getOldValue());
     }
 
+    /**
+     * Updates the view, but sets the top left cell to be a certain cell.
+     * @param column Column of the cell at the top left.
+     * @param row Row of the cell at the top left.
+     */
+    public void show(int column, int row){
+        head.updateScreen(column, row);
+    }
+
     public CommandBuilder getCommandBuilder(){
         return this.commandBuilder;
     }

@@ -21,4 +21,13 @@ public class Head{
     public void updateScreen(){
         screen.forceScreenUpdate();
     }
+
+    /**
+     * Forces the terminal screen to update to show the latest changes with the top left corner set as a certain cell.
+     * @param column Column of the cell to show at the top left
+     * @param row Row of the cell to show at the top left
+     */
+    public void updateScreen(int column, int row){
+        screen.forceScreenUpdate(column, row);
+    }
 }

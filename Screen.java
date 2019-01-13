@@ -110,6 +110,21 @@ public class Screen extends Thread {
     }
 
     /**
+     * Forces the terminal to update with the latest information with a starting point (starting cell at the top left).
+     * @param column Column of the csv file for the top left corner. Negative values ignored
+     * @param row Row of the csv file for the top left corner. Negative values ignored
+     */
+    public void forceScreenUpdate(int column, int row){
+        // Do nothing if there are negative values
+        if(column < 0 || row < 0){
+            return;
+        }
+        startColumn.set(column);
+        startRow.set(row);
+        requestScreenUpdate = true;
+    }
+
+    /**
      * Forces the terminal to update with the latest information.
      */
     public void forceScreenUpdate(){
