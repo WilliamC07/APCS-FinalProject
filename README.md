@@ -29,9 +29,9 @@ Alternatively, you can compile and run the program yourself. All needed dependen
 > Swaps the content of two cells
 > * `remove <column> <row>`
 > Deletes the content of the cell
-> *`multiple/add/divide/subtract/average <cell 1 column row> <cell 2 column row> <place to store value column and row>`
+> * `multiple/add/divide/subtract/average <cell 1 column row> <cell 2 column row> <place to store value column and row>`
 > Performs mathematical operation on the given two cells
-> *`raise <cell 1 column row> <power>`
+> * `raise <cell 1 column row> <power>`
 > Performs the mathematical operation of raising the value of the cell to the given power
 
 
