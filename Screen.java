@@ -179,7 +179,8 @@ public class Screen extends Thread {
         String[] gird = new String[rows];
         for (int row = 0; row < rows; row++) {
             // Divide by two since every other line shows information
-            int csvRow = startRow.get() + row / 2;
+            // Minus one because the first row is reserved for displaying the column number
+            int csvRow = startRow.get() + row / 2 - 1;
             // Every other row has a dashed line (starting with row 1)
 
             if(row % 2 == 0){
@@ -190,7 +191,8 @@ public class Screen extends Thread {
                 // Leave the incrementation to when we print things to the screen because it is easier to understand
                 // that way
                 for (int column = 0; column < columns;) {
-                    int csvColumn = startColumn.get() + column / (cellSpacing + 1);
+                    // Have to subtract 1 because the first column is reserved for displaying the row number
+                    int csvColumn = startColumn.get() + column / (cellSpacing + 1) - 1;
                     String valueToDisplay;
                     // Note: In these conditionals, we are using row and column (that is the position in the terminal,
                     // not the position in the csv because labeling row and column is always the top or left of the
@@ -209,9 +211,7 @@ public class Screen extends Thread {
                         valueToDisplay = fitSpace(String.valueOf(csvColumn), cellSpacing);
                     }else{
                         // All other columns are used to display content
-                        // Have to subtract 1 because the first column is reserved for displaying the row number
-                        // and the first row is reserved for displaying the column number
-                        valueToDisplay = fitSpace(csvRepresentation.getValue(csvColumn - 1, csvRow - 1), cellSpacing);
+                        valueToDisplay = fitSpace(csvRepresentation.getValue(csvColumn, csvRow), cellSpacing);
                     }
 
                     // Check if we can fit a cell, add one because we need to fit a divider
