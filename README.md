@@ -85,5 +85,5 @@ Group 19
 #### William
 
 #### Samson
-* Handled when user wants to subtract the values of 2 cells
+* Handled when user wants to subtract the values of 2 cells, finding the average of 2 cells, and raising the value of a cell to a power
 * Can now continue the program when user adds bad input
