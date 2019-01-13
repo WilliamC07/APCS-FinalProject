@@ -1,0 +1,10 @@
+,w,,,,Math,,Effect
+a,s,d,,add,5,2,
+,x,,,multiply,10,5,
+,,,,divide,400,10,
+,,,,average,10,20,
+,,,,subtract,9,4,
+,,,,swap,30,17,
+,,,,raise,2,5,
+,,,,remove,4,,
+,,,,undo,e,,
