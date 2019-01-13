@@ -87,3 +87,4 @@ Group 19
 #### Samson
 * Handled when user wants to subtract the values of 2 cells, finding the average of 2 cells, and raising the value of a cell to a power
 * Can now continue the program when user adds bad input
+* Created demo file for demo
