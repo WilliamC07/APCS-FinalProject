@@ -1,11 +1,34 @@
+# Samilliam Edit - Group 19
+## Members:
+* Samson Badlia
+* William Cao
+## What is this program?
+This is a terminal based csv editor inspired by vim. Open a csv file and see a well-formatted grid, in which you can edit a cell and perform mathematical operations.
+## How to run
+### Before running, make sure:
+* You have java 8 or newer installed
+* Using MacOS or Linux (not tested on windows)
 
-## How to run the program
- 1. Clone the repository through your terminal and change your working directory into it.
- 2. Download the lantern jar from [stuycs.org](http://www.stuycs.org/courses/apcs/k/2019-01-03) and put it in the repo.
- 3. Run `bash run.sh <arguments>`
-    - the argument is the path to the csv file you want to edit. It supports absolute and relative paths.
+### Instructions to run:
+Use the bash script provided in the program. The first argument passed in the script is the file you want to edit or view. The given path can be either absolute (/FILE.csv or ~/FILE.csv) or relative.
 
-Group 19
+`bash run.sh <PATH TO FILE>`
+
+Alternatively, you can compile and run the program yourself. All needed dependencies are needed. 
+
+## Commands to use
+Note: If a command is not valid (cell doesn't exist, command doesn't exist), nothing will happen.
+
+> * `set <column> <row> <value>`  
+> Sets the cell at the given column and row to be the value given. Note that if the cell has a value, it will be overridden without warning.
+> * `undo`
+> Undo the most recently done command.
+> * `swap <cell 1 column> <cell 1 row> <cell 2 column> <cell 2 row>`
+> Swaps the content of two cells
+> * `remove <column> <row>`
+> Deletes the content of the cell
+> `multiple/add/divide <cell 1 column row> <cell 2 column row> <place to store value column and row`
+> Performs mathematical operation on the given two cells
 
 ## Development log
 ### 1/2/19:
