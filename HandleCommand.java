@@ -9,8 +9,9 @@ public class HandleCommand {
 
     public void handle(String command){
         String[] elements = command.split(" ");
-        // Make it upper case for easier comparison
+        //trys to do the user inputs
         try{
+          // Make it upper case for easier comparison
           switch(elements[0].toUpperCase()){
             //checks what the user wants to do and handles them accordingly
               case "SET":
@@ -56,6 +57,7 @@ public class HandleCommand {
                   // Don't know what kind of command, TODO: Tell the user
           }
         }
+        //if the user inputs bad values, nothing happens
         catch(NumberFormatException e){
         }
       }
