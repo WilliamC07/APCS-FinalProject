@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
-# Run this bash script to download all needed files and compile the project.
+# Run this bash script to run the program
 # The parameter given will be passed into the program
-
-# Download the dependency
-#curl http://www.stuycs.org/courses/apcs/k/2019-01-03/lanterna.jar -o lanterna.jar
 
 # An csv file must be passed in for the program to work.
 if [ $# -eq 0 ]
@@ -12,6 +9,7 @@ then
     exit 1
 fi
 
+# Removes existing classes
 rm *.class
 
 # Compile the project
