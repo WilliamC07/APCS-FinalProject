@@ -17,8 +17,8 @@ Use the bash script provided in the program. The first argument passed in the sc
 Alternatively, you can compile and run the program yourself. All needed dependencies are needed. 
 
 ## Commands to use
-Note: If a command is not valid (cell doesn't exist, command doesn't exist), nothing will happen.
-
+* Note: Start typing to enter a command and press enter to push the command. If a command is not valid (give letters for column index, command doesn't exist), nothing will happen.
+* Scrolling: Pressing the arrow keys will move the screen around. You can press the arrow keys while typing.
 > * `set <column> <row> <value>`  
 > Sets the cell at the given column and row to be the value given. Note that if the cell has a value, it will be overridden without warning.
 > * `undo`
