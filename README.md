@@ -115,3 +115,4 @@ Alternatively, you can compile and run the program yourself. All needed dependen
 #### Samson
 * Handled when user wants to subtract the values of 2 cells, finding the average of 2 cells, and raising the value of a cell to a power
 * Can now continue the program when user adds bad input
+* Created a file for use during demo
