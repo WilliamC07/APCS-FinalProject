@@ -98,7 +98,6 @@ Alternatively, you can compile and run the program yourself. All needed dependen
 * When saving, trailing rows (those are rows that are empty, or only contains comma, but must not be between rows that contain data) are not saved to disk.
 * Resizing the screen no longer shows characters "randomly" placed and works on fullscreen
 * Finished writing undo
-#### Samson
 ### 1/12/19
 #### William
 * Can now show the row and column index for the user
@@ -106,3 +105,8 @@ Alternatively, you can compile and run the program yourself. All needed dependen
 * Moves cursor to the end of what the user is typing
 * If the user types a command longer than the width of the screen, the last x amount of characters will be shown along with the cursor.
 ### 1/13/19
+#### William
+
+#### Samson
+* Handled when user wants to subtract the values of 2 cells, finding the average of 2 cells, and raising the value of a cell to a power
+* Can now continue the program when user adds bad input

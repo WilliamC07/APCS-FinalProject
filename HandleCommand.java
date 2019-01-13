@@ -1,5 +1,6 @@
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.Terminal.Color;
+import java.lang.Math;
 
 public class HandleCommand {
     private final CSVRepresentation csvRepresentation;
@@ -9,47 +10,70 @@ public class HandleCommand {
 
     public void handle(String command){
         String[] elements = command.split(" ");
-        // Make it upper case for easier comparison
-        switch(elements[0].toUpperCase()){
-          //checks what the user wants to do and handles them accordingly
-            case "SET":
-            {
-                set(Integer.parseInt(elements[1]), Integer.parseInt(elements[2]), elements[3]);
-            }
-                break;
-            case "SWAP":
-            {
-              swap(Integer.parseInt(elements[1]),Integer.parseInt(elements[2]),Integer.parseInt(elements[3]),Integer.parseInt(elements[4]));
-            }
-                break;
-            case "ADD":
-            {
-              add(Integer.parseInt(elements[1]),Integer.parseInt(elements[2]),Integer.parseInt(elements[3]),Integer.parseInt(elements[4]),Integer.parseInt(elements[5]),Integer.parseInt(elements[6]));
-            }
-                break;
-            case "MULTIPLY":
-            {
-              multiply(Integer.parseInt(elements[1]),Integer.parseInt(elements[2]),Integer.parseInt(elements[3]),Integer.parseInt(elements[4]),Integer.parseInt(elements[5]),Integer.parseInt(elements[6]));
-            }
-                break;
-            case "DIVIDE":
-            {
-              division(Integer.parseInt(elements[1]),Integer.parseInt(elements[2]),Integer.parseInt(elements[3]),Integer.parseInt(elements[4]),Integer.parseInt(elements[5]),Integer.parseInt(elements[6]));
-            }
-                break;
-            case "REMOVE":
-            case "RM":
-            {
-                remove(Integer.parseInt(elements[1]), Integer.parseInt(elements[2]));
-            }
-                break;
-            case "UNDO":
-                csvRepresentation.undo();
-                break;
-            default:
-                // Don't know what kind of command, TODO: Tell the user
+        //trys to do the user inputs
+        try{
+          // Make it upper case for easier comparison
+          switch(elements[0].toUpperCase()){
+            //checks what the user wants to do and handles them accordingly
+              case "SET":
+              {
+                  set(Integer.parseInt(elements[1]), Integer.parseInt(elements[2]), elements[3]);
+              }
+                  break;
+              case "SWAP":
+              {
+                swap(Integer.parseInt(elements[1]),Integer.parseInt(elements[2]),Integer.parseInt(elements[3]),Integer.parseInt(elements[4]));
+              }
+                  break;
+              case "ADD":
+              {
+                add(Integer.parseInt(elements[1]),Integer.parseInt(elements[2]),Integer.parseInt(elements[3]),Integer.parseInt(elements[4]),Integer.parseInt(elements[5]),Integer.parseInt(elements[6]));
+              }
+                  break;
+              case "SUBTRACT":
+              {
+                subtract(Integer.parseInt(elements[1]),Integer.parseInt(elements[2]),Integer.parseInt(elements[3]),Integer.parseInt(elements[4]),Integer.parseInt(elements[5]),Integer.parseInt(elements[6]));
+              }
+                  break;
+              case "MULTIPLY":
+              {
+                multiply(Integer.parseInt(elements[1]),Integer.parseInt(elements[2]),Integer.parseInt(elements[3]),Integer.parseInt(elements[4]),Integer.parseInt(elements[5]),Integer.parseInt(elements[6]));
+              }
+                  break;
+              case "DIVIDE":
+              {
+                division(Integer.parseInt(elements[1]),Integer.parseInt(elements[2]),Integer.parseInt(elements[3]),Integer.parseInt(elements[4]),Integer.parseInt(elements[5]),Integer.parseInt(elements[6]));
+              }
+                  break;
+              case "RAISE":
+              case "POWER":
+              {
+                power(Integer.parseInt(elements[1]), Integer.parseInt(elements[2]), Integer.parseInt(elements[3]));
+              }
+                  break;
+              case "AVERAGE":
+              case "MEAN":
+              {
+                average(Integer.parseInt(elements[1]),Integer.parseInt(elements[2]),Integer.parseInt(elements[3]),Integer.parseInt(elements[4]),Integer.parseInt(elements[5]),Integer.parseInt(elements[6]));
+              }
+                  break;
+              case "REMOVE":
+              case "RM":
+              {
+                  remove(Integer.parseInt(elements[1]), Integer.parseInt(elements[2]));
+              }
+                  break;
+              case "UNDO":
+                  csvRepresentation.undo();
+                  break;
+              default:
+                  // Don't know what kind of command, TODO: Tell the user
+          }
         }
-    }
+        //if the user inputs bad values, nothing happens
+        catch(NumberFormatException e){
+        }
+      }
 
     /**
      * Sets the value of a cell to the value given by the user
@@ -104,6 +128,28 @@ public class HandleCommand {
     }
 
     /**
+     * Subtracts the values inside 2 given cells into the 3rd cell.
+     * @param col1     Column of first cell
+     * @param row1     Row of first cell
+     * @param col2     Column of second cell
+     * @param row2     Row of second cell
+     * @param storeCol Column of cell where data will be stored
+     * @param storeRow Row of cell where data will be stored
+     */
+    private void subtract(int col1, int row1, int col2, int row2, int storeCol, int storeRow){
+      //keeps track of the old value of the cell where the sum will be stored
+      String oldval = csvRepresentation.getValue(storeCol,storeRow);
+      //num1 and num2 keep track of the values of the data in the cells
+      String num1 = csvRepresentation.getValue(col1,row1);
+      String num2 = csvRepresentation.getValue(col2,row2);
+      //finds the sum as an int and then converted into a string
+      int difference = Integer.parseInt(num1) - Integer.parseInt(num2);
+      String s = difference + "";
+      Command c = new Command(oldval, s , storeCol, storeRow);
+      csvRepresentation.pushCommand(c);
+    }
+
+    /**
      * Multiplies the values inside 2 given cells into the 3rd cell.
      * @param col1     Column of first cell
      * @param row1     Row of first cell
@@ -148,6 +194,46 @@ public class HandleCommand {
     }
 
     /**
+     * Raises the value of the given cell to the power given by the user
+     * @param col   Column of the cell
+     * @param row   Row of the cell
+     * @param power The power the user wants to raise the value to
+     */
+    private void power(int col, int row, int power){
+      //keeps track of the old value
+      String oldVal = csvRepresentation.getValue(col, row);
+      //gets the double of the old value and raises it to the power
+      double val = Double.parseDouble(oldVal);
+      double newVal = Math.pow(val,power);
+      //Converts new value to a string and creates the command
+      String s = newVal + "";
+      Command c = new Command(oldVal,s, col, row);
+      csvRepresentation.pushCommand(c);
+    }
+
+    /**
+     * Finds the average of the values inside 2 given cells and places it in the 3rd cell.
+     * @param col1     Column of first cell
+     * @param row1     Row of first cell
+     * @param col2     Column of second cell
+     * @param row2     Row of second cell
+     * @param storeCol Column of cell where data will be stored
+     * @param storeRow Row of cell where data will be stored
+     */
+    private void average(int col1, int row1, int col2, int row2, int storeCol, int storeRow){
+      //keeps track of the old value of the cell that will be replaced
+      String oldval = csvRepresentation.getValue(storeCol,storeRow);
+      //num1 and num2 keep track of the values of the data in the cells
+      String num1 = csvRepresentation.getValue(col1,row1);
+      String num2 = csvRepresentation.getValue(col2,row2);
+      //finds the value as a double and then divides by 2 and converted into a string
+      double average = (Double.parseDouble(num1) + Double.parseDouble(num2)) / 2;
+      String s = average + "";
+      Command c = new Command(oldval, s , storeCol, storeRow);
+      csvRepresentation.pushCommand(c);
+    }
+
+    /**
      * Removes the cell at the given row and column
      * @param col Column of element to be removed
      * @param row Row of the element to be removed
@@ -156,4 +242,5 @@ public class HandleCommand {
         String old = csvRepresentation.getValue(col, row);
         csvRepresentation.pushCommand(new Command(old, "", col, row));
     }
+
   }
