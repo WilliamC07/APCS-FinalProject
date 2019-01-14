@@ -33,6 +33,8 @@ Alternatively, you can compile and run the program yourself. All needed dependen
 > Performs mathematical operation on the given two cells
 > * `raise <cell 1 column row> <power>`
 > Performs the mathematical operation of raising the value of the cell to the given power
+> * `show <column> <row>`
+> Refreshes the screen to show the top left cell as the given values. This ignores negative values. 
 
 
 ## Development log
@@ -111,8 +113,11 @@ Alternatively, you can compile and run the program yourself. All needed dependen
 * If the user types a command longer than the width of the screen, the last x amount of characters will be shown along with the cursor.
 ### 1/13/19
 #### William
-
+* Wrote instructions and more information about the project.
+* Wrote show column row command.
 #### Samson
 * Handled when user wants to subtract the values of 2 cells, finding the average of 2 cells, and raising the value of a cell to a power
 * Can now continue the program when user adds bad input
 * Created a file for use during demo
+### Base product is finished, we are starting to work on the Google Sheets API this week.
+### 1/14/19
