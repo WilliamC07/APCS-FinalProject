@@ -121,3 +121,5 @@ Alternatively, you can compile and run the program yourself. All needed dependen
 * Created a file for use during demo
 ### Base product is finished, we are starting to work on the Google Sheets API this week.
 ### 1/14/19
+#### William
+* Added dependencies for the project (now includes all the Google API and lanterna). You can just use the bash script to compile and run the program
