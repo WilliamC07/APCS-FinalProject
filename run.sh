@@ -15,7 +15,7 @@ fi
 rm *.class
 
 # Compile the project
-javac -cp lanterna.jar:. Main.java
+javac -cp ".:./dependency/lanterna.jar" *.java
 
 # Run the project
-java -cp lanterna.jar:. Main $1
+java -cp ".:./dependency/lanterna.jar" Main $1
