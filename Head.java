@@ -1,3 +1,5 @@
+import com.google.api.client.auth.oauth2.Credential;
+
 import java.nio.file.Path;
 
 /**
@@ -12,6 +14,14 @@ public class Head{
         screen = new Screen(csvRepresentation);
 
         // Start threads
+        screen.start();
+    }
+
+    public Head(Credential credential, String sheetID){
+        this.csvRepresentation = new CSVRepresentation(credential, sheetID, this);
+        screen = new Screen(csvRepresentation);
+
+        // start threads
         screen.start();
     }
 
