@@ -29,7 +29,6 @@ public class Main{
 	 * @param args Command line arguments
 	 */
 	private static void processArgs(String[] args){
-		System.out.println(args.length);
 		// One variable passed in is opening a file
 		if(args.length == 1){
 			// Opening an existing file
