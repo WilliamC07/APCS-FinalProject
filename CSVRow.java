@@ -1,5 +1,6 @@
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Each object of this class represents each row of the CSV file.
@@ -100,6 +101,13 @@ public class CSVRow extends LinkedList<CSVNode>{
     public static CSVRow createEmptyRow(){
         return new CSVRow();
     }
+
+    public static CSVRow fromList(List<Object> list){
+        CSVRow row = new CSVRow();
+        list.stream().forEach(item -> row.add(CSVNode.newInstance(item.toString())));
+        return row;
+    }
+
 
     /**
      * Removes all cells at the end of the list that does not contain data (empty string)
