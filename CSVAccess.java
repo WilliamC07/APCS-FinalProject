@@ -1,8 +1,17 @@
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.services.sheets.v4.Sheets;
+import com.google.api.services.sheets.v4.model.ValueRange;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.security.GeneralSecurityException;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 public class CSVAccess {
@@ -63,6 +72,32 @@ public class CSVAccess {
             // Could not save the file
             System.out.println("Fail to save");
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Gets the entire file from the given google sheet.
+     *
+     * TODO: implement credentials
+     * @param spreadSheetID ID for the google sheet. Found in https://docs.google.com/spreadsheets/d/spreadsheetId/edit
+     * @return List of a list of objects representing the sheet.
+     * @throws GeneralSecurityException From creating a secure connection to google API
+     * @throws IOException From creating a secure connection to google API
+     */
+    public List<List<Object>> getGoogleSheets(String spreadSheetID) throws GeneralSecurityException, IOException{
+        NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+        String spreadsheetId = spreadSheetID;
+        String range = "Sheet1"; // gets everything
+        JsonFactory factory = JacksonFactory.getDefaultInstance();
+
+        // TODO: Make httpRequestInitializer
+        Sheets service = new Sheets.Builder(httpTransport, factory, null).build();
+        ValueRange values = service.spreadsheets().values().get(spreadsheetId, range).execute();
+        List<List<Object>> content = values.getValues();
+        for(List<Object> row : content){
+            for(Object cell : row){
+                System.out.println(cell);
+            }
         }
     }
 
