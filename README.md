@@ -123,3 +123,9 @@ Alternatively, you can compile and run the program yourself. All needed dependen
 ### 1/14/19
 #### William
 * Added dependencies for the project (now includes all the Google API and lanterna). You can just use the bash script to compile and run the program
+### 1/15/19
+#### William
+* Able to connect to Google API and view sheets
+* Cleaned up run.sh (script to compile and run). Bash no longer checks for number of arguments, the actual java program
+does now. Can compile with dependencies (lanterna and all the Google API jars).
+* General documentation (missing javadoc from earlier methods). Not fully completed yet.
