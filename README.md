@@ -123,3 +123,4 @@ Alternatively, you can compile and run the program yourself. All needed dependen
 ### 1/14/19
 #### William
 * Added dependencies for the project (now includes all the Google API and lanterna). You can just use the bash script to compile and run the program
+* Added request to google sheets, need to add credentials before continuing 

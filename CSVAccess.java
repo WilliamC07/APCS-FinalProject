@@ -93,12 +93,8 @@ public class CSVAccess {
         // TODO: Make httpRequestInitializer
         Sheets service = new Sheets.Builder(httpTransport, factory, null).build();
         ValueRange values = service.spreadsheets().values().get(spreadsheetId, range).execute();
-        List<List<Object>> content = values.getValues();
-        for(List<Object> row : content){
-            for(Object cell : row){
-                System.out.println(cell);
-            }
-        }
+
+        return values.getValues();
     }
 
     /**
