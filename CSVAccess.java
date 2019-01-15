@@ -1,9 +1,9 @@
+import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.sheets.v4.Sheets;
-import com.google.api.services.sheets.v4.model.ValueRange;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -15,22 +15,51 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CSVAccess {
-    private final Path pathToCSV;
+    /**
+     * This is used when the user is opening an existing csv file on disk.
+     */
+    private Path pathToCSV = null;
+    /**
+     * This is used when the user is connected to Google server. This is how the user will be able to connect, the
+     * credentials.
+     */
+    private Credential credential;
+    /**
+     * This is the ID of the google sheet. It can be found at https://docs.google.com/spreadsheets/d/spreadsheetId/edit.
+     * Where spreadsheetID is the string of text in the url.
+     */
+    private String sheetID;
 
+    /**
+     * Creates an instance of this class that will read data from a file on the user's disk.
+     * @param pathToCSV Path to the csv file
+     */
     public CSVAccess(Path pathToCSV){
         this.pathToCSV = pathToCSV;
     }
 
-    public Scanner readCSV(){
-        try{
-            return new Scanner(pathToCSV);
-        }catch(IOException e){
-            e.printStackTrace();
-            System.exit(1); // Cannot read file, so stop
-        }
+    /**
+     * Creates an instance of this class that will read data from Google Sheets. Data will be stored on the google
+     * sheet.
+     * @param credential Credentials to connect to the Google Sheet.
+     */
+    public CSVAccess(Credential credential, String sheetID){
+        this.credential = credential;
+        // TODO: Replace with sheetID
+        this.sheetID = "1n5JcCATXJpJc2l8Ij6lIVej4andJnbrJvh-633VTbh8";
+    }
 
-        // This will never be called
-        return null;
+    /**
+     * Reads the csv file and returns a list of a list of rows for the user.
+     * @return The list of a list representation of the csv.
+     */
+    public LinkedList<CSVRow> readCSV(){
+        if(pathToCSV == null){
+            // Means we are connected to Google
+            return csvFromGoogle();
+        }else{
+            return csvFromDisk();
+        }
     }
 
     /**
@@ -76,25 +105,52 @@ public class CSVAccess {
     }
 
     /**
-     * Gets the entire file from the given google sheet.
+     * Gets the entire file from the given google sheet. This is only used f the user is editing a file from google api.
      *
-     * TODO: implement credentials
-     * @param spreadSheetID ID for the google sheet. Found in https://docs.google.com/spreadsheets/d/spreadsheetId/edit
      * @return List of a list of objects representing the sheet.
-     * @throws GeneralSecurityException From creating a secure connection to google API
-     * @throws IOException From creating a secure connection to google API
      */
-    public List<List<Object>> getGoogleSheets(String spreadSheetID) throws GeneralSecurityException, IOException{
-        NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
-        String spreadsheetId = spreadSheetID;
-        String range = "Sheet1"; // gets everything
-        JsonFactory factory = JacksonFactory.getDefaultInstance();
+    private LinkedList<CSVRow> csvFromGoogle() {
+        try{
+            NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+            String range = "Sheet1"; // gets everything
+            JsonFactory factory = JacksonFactory.getDefaultInstance();
 
-        // TODO: Make httpRequestInitializer
-        Sheets service = new Sheets.Builder(httpTransport, factory, null).build();
-        ValueRange values = service.spreadsheets().values().get(spreadsheetId, range).execute();
+            // TODO: Make httpRequestInitializer
+            Sheets service = new Sheets.Builder(httpTransport, factory, credential).build();
+            List<List<Object>> values = service.spreadsheets().values().get(sheetID, range).execute().getValues();
 
-        return values.getValues();
+            // Convert to LinkedList of CSVRow
+            LinkedList<CSVRow> formatted = new LinkedList<>();
+            values.forEach(row -> formatted.add(CSVRow.fromList(row)));
+            return formatted;
+        }catch(GeneralSecurityException | IOException e){
+            Main.exitWithError("Cannot connect to Google API");
+        }
+
+        // Will never reach
+        return null;
+    }
+
+    /**
+     * Gets the csv from disk. This is only used if the user is editing a file from disk.
+     * @return Representation of the csv file from Google Sheets
+     */
+    private LinkedList<CSVRow> csvFromDisk(){
+        LinkedList<CSVRow> csvTable =  new LinkedList<>();
+
+        try{
+            Scanner scanner = new Scanner(pathToCSV);
+            while(scanner.hasNextLine()){
+                csvTable.add(CSVRow.createNewRowFromString(scanner.nextLine()));
+            }
+            return csvTable;
+        }catch(IOException e){
+            e.printStackTrace();
+            System.exit(1); // Cannot read file, so stop
+        }
+
+        // will never be called
+        return null;
     }
 
     /**
