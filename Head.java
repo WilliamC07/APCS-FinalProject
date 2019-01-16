@@ -8,8 +8,10 @@ import java.nio.file.Path;
 public class Head{
     private final CSVRepresentation csvRepresentation;
     private final Screen screen;
+    private final boolean isConnectedToGoogle;
 
     public Head(Path pathToCSV){
+        this.isConnectedToGoogle = false;
         this.csvRepresentation = new CSVRepresentation(pathToCSV, this);
         screen = new Screen(csvRepresentation);
 
@@ -18,6 +20,7 @@ public class Head{
     }
 
     public Head(Credential credential, String sheetID){
+        this.isConnectedToGoogle = true;
         this.csvRepresentation = new CSVRepresentation(credential, sheetID, this);
         screen = new Screen(csvRepresentation);
 
@@ -39,5 +42,9 @@ public class Head{
      */
     public void updateScreen(int column, int row){
         screen.forceScreenUpdate(column, row);
+    }
+
+    public boolean isConnectedToGoogle() {
+        return isConnectedToGoogle;
     }
 }
