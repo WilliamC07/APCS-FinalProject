@@ -1,9 +1,7 @@
 import com.google.api.client.auth.oauth2.Credential;
 
 import java.nio.file.Path;
-import java.util.ArrayDeque;
-import java.util.LinkedList;
-import java.util.Scanner;
+import java.util.*;
 
 public class CSVRepresentation {
     private final CSVAccess csvAccess;
@@ -69,6 +67,24 @@ public class CSVRepresentation {
             rows.add(CSVRow.createEmptyRow());
         }
         rows.get(row).set(col, CSVNode.newInstance(value));
+
+        // Need to update the google sheet if we are connected
+        if(head.isConnectedToGoogle()){
+            csvAccess.updateToGoogle(col, row, convertToListListObject(rows));
+            System.exit(1);
+        }
+    }
+
+    private List<List<Object>> convertToListListObject(LinkedList<CSVRow> rows){
+        // Use ArrayList for speed
+        List<List<Object>> outer = new ArrayList<>(rows.size());
+        for(CSVRow row : rows){
+            List<Object> inner = new ArrayList<>(row.size());
+            inner.addAll(rows);
+            outer.add(inner);
+        }
+
+        return outer;
     }
 
     /**
