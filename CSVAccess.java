@@ -63,10 +63,24 @@ public class CSVAccess {
     }
 
     /**
-     * Converts each row to a string and saves it onto the file given at the start of the program.
+     * Converts each row to a string and saves it onto the file given at the start of the program. This will not save
+     * anything to the Google Sheets. Each command done by the user should automatically be updated to Google Sheets.
      * @param rows All the rows to be saved
      */
     public void saveCSV(LinkedList<CSVRow> rows){
+        if(pathToCSV != null){
+            saveToDisk(rows);
+        }
+
+        // Do not save to google, each command done by the user should automatically update the Google Sheet for the
+        // user.
+    }
+
+    /**
+     * Gets the entire csv representation and saves it to disk. This is only used if the user is editing a file from
+     * the disk.
+     */
+    private void saveToDisk(LinkedList<CSVRow> rows){
         try(FileWriter fileWriter = new FileWriter(pathToCSV.toFile());
             BufferedWriter writer = new BufferedWriter(fileWriter)){
             int largestRowSize = simplifyRows(rows);
@@ -105,7 +119,7 @@ public class CSVAccess {
     }
 
     /**
-     * Gets the entire file from the given google sheet. This is only used f the user is editing a file from google api.
+     * Gets the entire file from the given google sheet. This is only used if the user is editing a file from google api.
      *
      * @return List of a list of objects representing the sheet.
      */
