@@ -191,7 +191,7 @@ public class Screen extends Thread {
      * @return An empty table with the inputs
      */
     private String[] getTable(int columns, int rows, int cellSpacing) {
-        String[] gird = new String[rows];
+        String[] grid = new String[rows];
         for (int row = 0; row < rows; row++) {
             // Divide by two since every other line shows information
             // Minus one because the first row is reserved for displaying the column number
@@ -199,7 +199,7 @@ public class Screen extends Thread {
             // Every other row has a dashed line (starting with row 1)
 
             if(row % 2 == 0){
-                gird[row] = repeat("-", columns);
+                grid[row] = repeat("-", columns);
             }else{
                 // All other lines are able to fit data and a divider
                 StringBuilder rowBuilder = new StringBuilder();
@@ -242,10 +242,10 @@ public class Screen extends Thread {
                         column += cellSpacing + 1; // add one for the divider
                     }
                 }
-                gird[row] = rowBuilder.toString();
+                grid[row] = rowBuilder.toString();
             }
         }
-        return gird;
+        return grid;
     }
 
     /**
