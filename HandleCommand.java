@@ -1,5 +1,5 @@
 import com.googlecode.lanterna.terminal.Terminal;
-import com.googlecode.lanterna.terminal.Terminal.Color;
+import static com.googlecode.lanterna.terminal.Terminal.Color;
 import java.lang.Math;
 
 public class HandleCommand {
@@ -69,6 +69,11 @@ public class HandleCommand {
               case "SHOW":
                   csvRepresentation.show(Integer.parseInt(elements[1]), Integer.parseInt(elements[2]));
                   break;
+              case "SETROWHEADER":
+                  csvRepresentation.setRowHeader(Integer.parseInt(elements[1]));
+                  break;
+              case "SETCOLUMNHEADER":
+                  csvRepresentation.setColumnHeader(Integer.parseInt(elements[1]));
               default:
                   // Don't know what kind of command, TODO: Tell the user
           }
@@ -245,5 +250,17 @@ public class HandleCommand {
         String old = csvRepresentation.getValue(col, row);
         csvRepresentation.pushCommand(new Command(old, "", col, row));
     }
+
+    /*private void colorRow(Color c, int row){
+
+    }
+
+    private void colorCol(Color c, int col){
+
+    }
+
+    private void color(Color c){
+
+    }*/
 
   }
