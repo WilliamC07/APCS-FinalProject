@@ -4,6 +4,7 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.sheets.v4.Sheets;
+import com.google.api.services.sheets.v4.model.ValueRange;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -31,6 +32,11 @@ public class CSVAccess {
     private String sheetID;
 
     /**
+     * Spreadsheet from Google API. This is how you communicate with the server.
+     */
+    private Sheets sheet;
+
+    /**
      * Creates an instance of this class that will read data from a file on the user's disk.
      * @param pathToCSV Path to the csv file
      */
@@ -47,6 +53,7 @@ public class CSVAccess {
         this.credential = credential;
         // TODO: Replace with sheetID
         this.sheetID = "1n5JcCATXJpJc2l8Ij6lIVej4andJnbrJvh-633VTbh8";
+        this.sheet = connectToGoogle();
     }
 
     /**
@@ -74,6 +81,59 @@ public class CSVAccess {
 
         // Do not save to google, each command done by the user should automatically update the Google Sheet for the
         // user.
+    }
+
+    /**
+     * Updates
+     */
+    public void updateToGoogle(int column, int row, List<List<Object>> rows){
+        ValueRange valueRange = new ValueRange().setValues(rows);
+        String range = getGoogleSheetsRange(column, row);
+
+        try{
+            sheet.spreadsheets().values().update(sheetID, range, valueRange).setValueInputOption("RAW").execute();
+        }catch(IOException e){
+            e.printStackTrace();
+            Main.exitWithError("Connection cannot be made, connection closed.");
+        }
+    }
+
+    /**
+     * Converts the column and row to A1 representation. The A1 representation is done by Sheet1"column":"row". Row is a
+     * regular number while column is a series of letters. Each letter corresponds to the place in the alphabet, but
+     * A is 0 and Z is 25. Any number greater than 25 needs to have multiple letters, so 26 is AA and 27 is AB. Sheet1
+     * is used because we are getting the whole sheet.
+     * @return A1 Representation.
+     */
+    private String getGoogleSheetsRange(int column, int row){
+        StringBuilder builder = new StringBuilder("Sheet1!");
+        final char[] ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+        StringBuilder firstCellCord = new StringBuilder();
+
+        // Attach the column, which is made up of multiple letters
+        // The 25th (zero based) column is "Z" and the 26th column is "AA"
+        final int columnLetters = column / 25 + 1;
+        for(int i = 0; i < columnLetters; i++){
+            firstCellCord.append(ALPHABET[column % 26]); // Get the letter that corresponds to the number
+
+            // Decrease the column since we are making the next part of the A1 representation.
+            // Zero based, so 'Z' is the 25th letter
+            column -= 25;
+        }
+
+        // Attach the row
+        firstCellCord.append(row);
+
+        // Add the first cell cord
+        builder.append(firstCellCord);
+
+        // Attach the delimiter
+        builder.append(':');
+
+        // Repeat the first cell since we are only editing one cell at a time
+        builder.append(firstCellCord);
+
+        return builder.toString();
     }
 
     /**
@@ -125,23 +185,37 @@ public class CSVAccess {
      */
     private LinkedList<CSVRow> csvFromGoogle() {
         try{
-            NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
             String range = "Sheet1"; // gets everything
-            JsonFactory factory = JacksonFactory.getDefaultInstance();
-
-            // TODO: Make httpRequestInitializer
-            Sheets service = new Sheets.Builder(httpTransport, factory, credential).build();
-            List<List<Object>> values = service.spreadsheets().values().get(sheetID, range).execute().getValues();
+            List<List<Object>> values = sheet.spreadsheets().values().get(sheetID, range).execute().getValues();
 
             // Convert to LinkedList of CSVRow
             LinkedList<CSVRow> formatted = new LinkedList<>();
             values.forEach(row -> formatted.add(CSVRow.fromList(row)));
             return formatted;
-        }catch(GeneralSecurityException | IOException e){
+        }catch(IOException e){
             Main.exitWithError("Cannot connect to Google API");
         }
 
         // Will never reach
+        return null;
+    }
+
+    /**
+     * Connects to the google api and gets the sheet.
+     * @return The sheet used to communicate with google sheet
+     */
+    private Sheets connectToGoogle(){
+        try{
+            NetHttpTransport httpTransport = GoogleNetHttpTransport.newTrustedTransport();
+            JsonFactory factory = JacksonFactory.getDefaultInstance();
+
+            // TODO: Make httpRequestInitializer
+            return new Sheets.Builder(httpTransport, factory, credential).build();
+        }catch(GeneralSecurityException | IOException e){
+            Main.exitWithError("Cannot connect to Google API");
+        }
+
+        // Will never reach, since the catch statement quits the program
         return null;
     }
 
