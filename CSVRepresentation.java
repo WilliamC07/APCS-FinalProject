@@ -19,15 +19,9 @@ public class CSVRepresentation {
      */
     private final Lock accessCSV = new ReentrantLock(true);
 
-    public CSVRepresentation(Path pathToCSV, Head head){
+    public CSVRepresentation(CSVAccess csvAccess, Head head){
         this.head = head;
-        this.csvAccess = new CSVAccess(pathToCSV);
-        this.rows = csvAccess.readCSV();
-    }
-
-    public CSVRepresentation(Credential credential, String sheetID, Head head){
-        this.head = head;
-        this.csvAccess = new CSVAccess(credential, sheetID);
+        this.csvAccess = csvAccess;
         this.rows = csvAccess.readCSV();
     }
 
