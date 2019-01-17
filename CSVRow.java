@@ -129,7 +129,7 @@ public class CSVRow extends LinkedList<CSVNode>{
         int amountOfCellsAdded = 0;  // Keep track of amount of cells so all rows have equal amount of columns
         for(int i = 0; i < size(); i++){
             CSVNode node = get(i);
-            builder.append(node.toString());
+            builder.append(node.getFileRepresentation());
 
             // add commas only if it is not the last cell of the row
             if(i < size() - 1){
