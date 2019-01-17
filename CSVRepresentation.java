@@ -76,7 +76,6 @@ public class CSVRepresentation {
      * @param value New value to put in the cell
      */
     private void update(int col, int row, String value){
-        if(accessCSV.tryLock())
         accessCSV.lock();
 
         while(row >= rows.size()){
