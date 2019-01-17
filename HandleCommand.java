@@ -10,6 +10,10 @@ public class HandleCommand {
 
     public void handle(String command){
         String[] elements = command.split(" ");
+        int[] nums = new int[elements.length- 1];
+        for (int i = 0; i < nums.length - 1; i++){
+          nums[i] = Integer.parseInt(elements[i+1]);
+        }
         //trys to do the user inputs
         try{
           // Make it upper case for easier comparison
@@ -27,7 +31,7 @@ public class HandleCommand {
                   break;
               case "ADD":
               {
-                add(Integer.parseInt(elements[1]),Integer.parseInt(elements[2]),Integer.parseInt(elements[3]),Integer.parseInt(elements[4]),Integer.parseInt(elements[5]),Integer.parseInt(elements[6]));
+                add(nums);
               }
                   break;
               case "SUBTRACT":
@@ -69,11 +73,12 @@ public class HandleCommand {
               case "SHOW":
                   csvRepresentation.show(Integer.parseInt(elements[1]), Integer.parseInt(elements[2]));
                   break;
-              case "SETROWHEADER":
+              /*case "SETROWHEADER":
                   csvRepresentation.setRowHeader(Integer.parseInt(elements[1]));
                   break;
               case "SETCOLUMNHEADER":
                   csvRepresentation.setColumnHeader(Integer.parseInt(elements[1]));
+                  */
               default:
                   // Don't know what kind of command, TODO: Tell the user
           }
@@ -122,6 +127,7 @@ public class HandleCommand {
      * @param storeCol Column of cell where data will be stored
      * @param storeRow Row of cell where data will be stored
      */
+    /*
     private void add(int col1, int row1, int col2, int row2, int storeCol, int storeRow){
       //keeps track of the old value of the cell where the sum will be stored
       String oldval = csvRepresentation.getValue(storeCol,storeRow);
@@ -132,6 +138,23 @@ public class HandleCommand {
       int sum = Integer.parseInt(num1) + Integer.parseInt(num2);
       String s = sum + "";
       Command c = new Command(oldval, s , storeCol, storeRow);
+      csvRepresentation.pushCommand(c);
+    }
+
+    /**
+     * Adds the values of all the cells given by the user
+     * @param nums An int array where the values alternate between column and row. The last 2 values represent the column and row where sum will be stored;
+     */
+
+    private void add(int[] nums){
+      int sum = 0;
+      int len = nums.length;
+      String oldVal = csvRepresentation.getValue(nums[len - 2],nums[len - 1]);
+      for( int i = 1; i < len - 2; i += 2 ){
+        sum += Integer.parseInt(csvRepresentation.getValue(i-1,i));
+      }
+      String s = sum + "";
+      Command c = new Command(oldVal,s,nums[len - 2],nums[len - 1]);
       csvRepresentation.pushCommand(c);
     }
 
