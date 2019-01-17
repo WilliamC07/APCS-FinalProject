@@ -9,10 +9,12 @@ public class Head{
     private final CSVRepresentation csvRepresentation;
     private final Screen screen;
     private final boolean isConnectedToGoogle;
+    private final CSVAccess csvAccess;
 
     public Head(Path pathToCSV){
+        this.csvAccess = new CSVAccess(pathToCSV);
         this.isConnectedToGoogle = false;
-        this.csvRepresentation = new CSVRepresentation(pathToCSV, this);
+        this.csvRepresentation = new CSVRepresentation(csvAccess, this);
         screen = new Screen(csvRepresentation);
 
         // Start threads
@@ -20,8 +22,9 @@ public class Head{
     }
 
     public Head(Credential credential, String sheetID){
+        this.csvAccess = new CSVAccess(credential, sheetID);
         this.isConnectedToGoogle = true;
-        this.csvRepresentation = new CSVRepresentation(credential, sheetID, this);
+        this.csvRepresentation = new CSVRepresentation(csvAccess, this);
         screen = new Screen(csvRepresentation);
 
         // start threads
