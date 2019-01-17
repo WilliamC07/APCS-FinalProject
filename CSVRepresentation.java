@@ -33,7 +33,7 @@ public class CSVRepresentation {
     }
 
     /**
-     * Saves the CSV file onto disk using the original location provided by the user {@link #pathToCSV}.
+     * Saves the CSV file onto disk using the original location provided by the user.
      * TODO: Handle what happens if it can't be saved
      */
     public void save(){
@@ -70,21 +70,8 @@ public class CSVRepresentation {
 
         // Need to update the google sheet if we are connected
         if(head.isConnectedToGoogle()){
-            csvAccess.updateToGoogle(col, row, convertToListListObject(rows));
-            System.exit(1);
+            csvAccess.updateToGoogle(col, row, value);
         }
-    }
-
-    private List<List<Object>> convertToListListObject(LinkedList<CSVRow> rows){
-        // Use ArrayList for speed
-        List<List<Object>> outer = new ArrayList<>(rows.size());
-        for(CSVRow row : rows){
-            List<Object> inner = new ArrayList<>(row.size());
-            inner.addAll(rows);
-            outer.add(inner);
-        }
-
-        return outer;
     }
 
     /**

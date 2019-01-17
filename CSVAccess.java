@@ -11,8 +11,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.security.GeneralSecurityException;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CSVAccess {
@@ -84,11 +85,26 @@ public class CSVAccess {
     }
 
     /**
-     * Updates
+     * Updates the google sheet to have the most recent change.
+     * @param column Column of the cell to be changed. This will be converted to A1 format.
+     * @param row Row of the cell to be changed. This will be converted to A1 format.
+     * @param newValue Value of the cell to be set to.
      */
-    public void updateToGoogle(int column, int row, List<List<Object>> rows){
-        ValueRange valueRange = new ValueRange().setValues(rows);
+    public void updateToGoogle(int column, int row, String newValue){
         String range = getGoogleSheetsRange(column, row);
+
+        // Google api is weird. You only give the value you want to change into the ValueRange. Then, give it the range
+        // of the google sheet the value should be set to.
+        ValueRange valueRange = new ValueRange();
+        valueRange.setRange(range);
+        // our program is a list of rows
+        valueRange.setMajorDimension("ROWS");
+
+        List<Object> lists = new ArrayList<>();
+        lists.add(newValue);
+        List<List<Object>> values = new ArrayList<>();
+        values.add(lists);
+        valueRange.setValues(values);
 
         try{
             sheet.spreadsheets().values().update(sheetID, range, valueRange).setValueInputOption("RAW").execute();
@@ -105,7 +121,7 @@ public class CSVAccess {
      * is used because we are getting the whole sheet.
      * @return A1 Representation.
      */
-    private String getGoogleSheetsRange(int column, int row){
+    private static String getGoogleSheetsRange(int column, int row){
         StringBuilder builder = new StringBuilder("Sheet1!");
         final char[] ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
         StringBuilder firstCellCord = new StringBuilder();
@@ -122,15 +138,10 @@ public class CSVAccess {
         }
 
         // Attach the row
-        firstCellCord.append(row);
+        // Add one because rows are index starting from 1 and not 0 like this program
+        firstCellCord.append(row + 1);
 
         // Add the first cell cord
-        builder.append(firstCellCord);
-
-        // Attach the delimiter
-        builder.append(':');
-
-        // Repeat the first cell since we are only editing one cell at a time
         builder.append(firstCellCord);
 
         return builder.toString();
