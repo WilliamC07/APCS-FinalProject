@@ -293,11 +293,12 @@ public class HandleCommand {
       double sum = 0;
       int len = nums.length;
       String oldVal = csvRepresentation.getValue(nums[len - 2],nums[len - 1]);
-      for( int i = 1; i < len - 2; i += 2 ){
+
+      for( int i = 1; i <= len - 2; i += 2 ){
         String val = csvRepresentation.getValue(nums[i-1],nums[i]);
         sum += Double.parseDouble(val);
       }
-      sum /= len;
+      sum /= ((len/2) - 1);
       String s = sum + "";
       Command c = new Command(oldVal,s,nums[len - 2],nums[len - 1]);
       csvRepresentation.pushCommand(c);
