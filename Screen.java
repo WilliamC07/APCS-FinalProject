@@ -3,6 +3,7 @@ import com.googlecode.lanterna.input.Key;
 import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.TerminalSize;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Screen extends Thread {
@@ -28,14 +29,19 @@ public class Screen extends Thread {
      * command will be processed and the screen will be requested to be updated.
      */
     private final CommandBuilder commandBuilder;
+    /**
+     * If true, the program is active and things need to be drawn to the screen.
+     */
+    private final AtomicBoolean isProgramRunning;
 
     /**
      * Constructor. Only one of these should be created.
      * @param csvRepresentation The CSV to be shown to the screen
      */
-    public Screen(CSVRepresentation csvRepresentation) {
+    public Screen(CSVRepresentation csvRepresentation, AtomicBoolean isProgramRunning) {
         this.csvRepresentation = csvRepresentation;
         this.commandBuilder = csvRepresentation.getCommandBuilder();
+        this.isProgramRunning = isProgramRunning;
     }
 
     /**
@@ -50,8 +56,7 @@ public class Screen extends Thread {
 
         // Show the file to the user
         updateScreen(screen);
-        boolean isRunning = true;
-        while (isRunning) {
+        while (isProgramRunning.get()) {
             // If the screen resized, we need to redraw the board
             if(screen.updateScreenSize()){
                 updateScreen(screen);
@@ -64,7 +69,7 @@ public class Screen extends Thread {
                 switch (key.getKind()) {
                     case Escape:
                         screen.stopScreen();
-                        isRunning = false; // stop the thread
+                        isProgramRunning.set(false); // stop the thread
                         csvRepresentation.save();
                         break;
                     case ArrowUp:

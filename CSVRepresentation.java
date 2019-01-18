@@ -1,54 +1,56 @@
+import com.google.api.client.auth.oauth2.Credential;
+
 import java.nio.file.Path;
-import java.util.ArrayDeque;
-import java.util.LinkedList;
-import java.util.Scanner;
+import java.util.*;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class CSVRepresentation {
-    private final Path pathToCSV;
     private final CSVAccess csvAccess;
-    private final LinkedList<CSVRow> rows;
+    private LinkedList<CSVRow> rows;
     private final ArrayDeque<Command> commands = new ArrayDeque<>();
-    private final HandleCommand handleCommand;
-    private final CommandBuilder commandBuilder;
+    private final HandleCommand handleCommand = new HandleCommand(this);
+    private final CommandBuilder commandBuilder = new CommandBuilder(handleCommand);
     private final Head head;
+    /**
+     * Lock to prevent the screen from reading a not up to date version of the sheets if the user is connect to google
+     * api. Add fairness to we are guarantee for the screen to update and not indefinitely waiting. This shouldn't
+     * happen, but just to make sure.
+     */
+    private final Lock accessCSV = new ReentrantLock(true);
 
-    public CSVRepresentation(Path pathToCSV, Head head){
-        this.pathToCSV = pathToCSV;
+    public CSVRepresentation(CSVAccess csvAccess, Head head){
         this.head = head;
-        this.csvAccess = new CSVAccess(pathToCSV);
-        this.rows = readCSV();
-        this.handleCommand = new HandleCommand(this);
-        this.commandBuilder = new CommandBuilder(handleCommand);
+        this.csvAccess = csvAccess;
+        this.rows = csvAccess.readCSV();
+    }
+
+    public void updateCSV(LinkedList<CSVRow> newRows){
+        accessCSV.lock();
+        rows = newRows;
+        accessCSV.unlock();
     }
 
     public synchronized String getValue(int column, int row){
         try{
+            accessCSV.lock();
             return rows.get(row).get(column).getData();
         }catch(IndexOutOfBoundsException e){
             // This means the cell doesn't exists, so we can just return an empty string
             return "";
+        }finally {
+            accessCSV.unlock();
         }
     }
 
     /**
-     * Reads the CSV file given by the user and creates a LinkedList from it.
-     * @return A LinkedList that contains a row of cells of the CSV file.
-     */
-    private LinkedList<CSVRow> readCSV(){
-        LinkedList<CSVRow> rows = new LinkedList<>();
-        Scanner fileReader = csvAccess.readCSV();
-        while(fileReader.hasNextLine()){
-            rows.add(CSVRow.createNewRowFromString(fileReader.nextLine()));
-        }
-        return rows;
-    }
-
-    /**
-     * Saves the CSV file onto disk using the original location provided by the user {@link #pathToCSV}.
+     * Saves the CSV file onto disk using the original location provided by the user.
      * TODO: Handle what happens if it can't be saved
      */
     public void save(){
+        accessCSV.lock();
         csvAccess.saveCSV(rows);
+        accessCSV.unlock();
     }
 
     /**
@@ -74,10 +76,19 @@ public class CSVRepresentation {
      * @param value New value to put in the cell
      */
     private void update(int col, int row, String value){
+        accessCSV.lock();
+
         while(row >= rows.size()){
             rows.add(CSVRow.createEmptyRow());
         }
         rows.get(row).set(col, CSVNode.newInstance(value));
+
+        // Need to update the google sheet if we are connected
+        if(head.isConnectedToGoogle()){
+            csvAccess.updateToGoogle(col, row, value);
+        }
+
+        accessCSV.unlock();
     }
 
     /**
