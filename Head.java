@@ -11,13 +11,13 @@ public class Head{
     private final Screen screen;
     private final boolean isConnectedToGoogle;
     private final CSVAccess csvAccess;
-    private final AtomicBoolean isProgrammingRunning = new AtomicBoolean(true);
+    private final AtomicBoolean isProgramRunning = new AtomicBoolean(true);
 
     public Head(Path pathToCSV){
         this.csvAccess = new CSVAccess(pathToCSV);
         this.isConnectedToGoogle = false;
         this.csvRepresentation = new CSVRepresentation(csvAccess, this);
-        screen = new Screen(csvRepresentation, isProgrammingRunning);
+        screen = new Screen(csvRepresentation, isProgramRunning);
 
         // Start threads
         screen.start();
@@ -27,7 +27,7 @@ public class Head{
         this.csvAccess = new CSVAccess(credential, sheetID);
         this.isConnectedToGoogle = true;
         this.csvRepresentation = new CSVRepresentation(csvAccess, this);
-        screen = new Screen(csvRepresentation, isProgrammingRunning);
+        screen = new Screen(csvRepresentation, isProgramRunning);
 
         // start threads
         screen.start();
@@ -36,7 +36,7 @@ public class Head{
 
     private void googleUpdaterThread(){
         Thread updateCSVFromGoogle = new Thread(() -> {
-            while(isProgrammingRunning.get()){
+            while(isProgramRunning.get()){
                 // recreate the csv file
                 csvRepresentation.updateCSV(csvAccess.readCSV());
                 // show the new csv file
