@@ -1,4 +1,5 @@
 
+
 # Samilliam Edit - Group 19
 ## Members:
 * Samson Badlia
@@ -30,16 +31,18 @@ Use the bash script provided in the program (easiest) or compile it yourself (ma
 	If you want to make your own google sheet to use this program:
 	1. Go to [Google API service website](https://console.cloud.google.com/projectcreate)
 	2. Create the project and follow the directions given. 
-	3. Click on library (on the left side of the page), find "Google Sheets API) and click "enable"
-	4. Click on credentials (left side of the page) and click "OAuth consent screen" tab in the top middle of the window.
-	5. Add an Application name
-	6. Click "Add scope" (scroll down a bit) and add Google Sheets API. 
-	7. Click save (bottom of the page)
-	8. Go back to the top of the screen and click on the "Credentials" tab
-	9. Click create credentials and choose "OAuth client ID"
-	10. Follow the steps (application type is other) 
-	11. On the right side of the screen, click on the download symbol. Your browser should download a file that starts with client_secret and be a .json file.
-	12. Run the program following the directions from earlier. 
+	3. Click on library (on the left side of the page, hover over APIs & Service then Library), find "Google Sheets API" and click "enable"
+	4. Click on credentials (left side of the page) and click "Create Credentials" then and follow the steps. (Google Sheet and Choose Other non-UI and Application Data then choose no for App Engine and Compute Engine).
+	5. Click "What credentials do I need" and fill it out. Choose JSON.
+	6. Click "OAuth consent screen" tab in the top middle of the window.
+	7. Add an Application name
+	8. Click "Add scope" (scroll down a bit) and add Google Sheets API (The one that doesn't have a lock symbol). 
+	9. Click save (bottom of the page)
+	10. Go back to the top of the screen and click on the "Credentials" tab
+	11. Click create credentials and choose "OAuth client ID"
+	12. Follow the steps (application type is other) 
+	13. On the right side of the screen, click on the download symbol. Your browser should download a file that starts with client_secret and be a .json file.
+	14. Run the program following the directions from earlier. 
 
 ## Commands to use
 * Note: Start typing to enter a command and press enter to push the command. If a command is not valid (give letters for column index, command doesn't exist), nothing will happen.
