@@ -147,3 +147,4 @@ does now. Can compile with dependencies (lanterna and all the Google API jars).
 * Use ReentrantLock instead of synchronized methods to prevent multiple threads having conflicting changes.
 * Use a global variable to check if the program is running so all threads stop at the same time and the program and quit with the ESCAPE button
 * Head.java controls all threads, CSVRepresentation, and CSVAccess to make code easier to read and understand.
+* Now accept third terminal argument for spreadsheet id 
