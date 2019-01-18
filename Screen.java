@@ -33,6 +33,10 @@ public class Screen extends Thread {
      * If true, the program is active and things need to be drawn to the screen.
      */
     private final AtomicBoolean isProgramRunning;
+    /**
+     * The amount of characters that can fit in one column. There is an initial value of 10 character per column.
+     */
+    private volatile int columnSize = 10;
 
     /**
      * Constructor. Only one of these should be created.
@@ -146,7 +150,7 @@ public class Screen extends Thread {
 
         TerminalSize size = screen.getTerminalSize();
         // reserve one row for the user input
-        String[] csvGrid = getTable(size.getColumns(), size.getRows() - 1, 10);
+        String[] csvGrid = getTable(size.getColumns(), size.getRows() - 1);
         for(int row = 0; row < size.getRows() - 1; row++){
             screen.putString(0, row, csvGrid[row], null, null);
         }
@@ -192,10 +196,9 @@ public class Screen extends Thread {
      *
      * @param columns     The number of columns in the table
      * @param rows        The number of rows in the table
-     * @param cellSpacing The size of the cells
      * @return An empty table with the inputs
      */
-    private String[] getTable(int columns, int rows, int cellSpacing) {
+    private String[] getTable(int columns, int rows) {
         String[] gird = new String[rows];
         for (int row = 0; row < rows; row++) {
             // Divide by two since every other line shows information
@@ -212,7 +215,7 @@ public class Screen extends Thread {
                 // that way
                 for (int column = 0; column < columns;) {
                     // Have to subtract 1 because the first column is reserved for displaying the row number
-                    int csvColumn = startColumn.get() + column / (cellSpacing + 1) - 1;
+                    int csvColumn = startColumn.get() + column / (columnSize + 1) - 1;
                     String valueToDisplay;
                     // Note: In these conditionals, we are using row and column (that is the position in the terminal,
                     // not the position in the csv because labeling row and column is always the top or left of the
@@ -221,21 +224,21 @@ public class Screen extends Thread {
                         // Do not show anything for the top left cell because there isn't a label there
                         // Zeroth column represents the first cell on the left hand side of the screen
                         // First row (index 1 not 0) is because the zeroth (index 0) row is always a dashed line, not a cell
-                        valueToDisplay = fitSpace("", cellSpacing);
+                        valueToDisplay = fitSpace("", columnSize);
                     }else if(column == 0){
                         // The left most column is used to display what row the user is looking at (row number)
-                        valueToDisplay = fitSpace(String.valueOf(csvRow), cellSpacing);
+                        valueToDisplay = fitSpace(String.valueOf(csvRow), columnSize);
                     }else if(row == 1){
                         // The 0th row is always a dashed line, so the text can begin showing in the 1st row
                         // The top row is used to display what row the user is looking at (column number)
-                        valueToDisplay = fitSpace(String.valueOf(csvColumn), cellSpacing);
+                        valueToDisplay = fitSpace(String.valueOf(csvColumn), columnSize);
                     }else{
                         // All other columns are used to display content
-                        valueToDisplay = fitSpace(csvRepresentation.getValue(csvColumn, csvRow), cellSpacing);
+                        valueToDisplay = fitSpace(csvRepresentation.getValue(csvColumn, csvRow), columnSize);
                     }
 
                     // Check if we can fit a cell, add one because we need to fit a divider
-                    if(columns - column + 1 < cellSpacing){
+                    if(columns - column + 1 < columnSize){
                         // Cannot fit another column, so just use up remaining space
                         // Don't add a divider since we want to fit as much data as we can
                         int spaceLeft = columns - column;
@@ -244,7 +247,7 @@ public class Screen extends Thread {
                     }else{
                         // Can fit another column
                         rowBuilder.append(valueToDisplay).append("|");
-                        column += cellSpacing + 1; // add one for the divider
+                        column += columnSize + 1; // add one for the divider
                     }
                 }
                 gird[row] = rowBuilder.toString();
@@ -265,5 +268,14 @@ public class Screen extends Thread {
             builder.append(string);
         }
         return builder.toString();
+    }
+
+    /**
+     * Sets the size of the column. This will also refresh the screen to show the change.
+     * @param newSize Amount of characters that can fit in a column
+     */
+    public void setColumnSize(int newSize){
+        this.columnSize = newSize;
+        forceScreenUpdate();
     }
 }

@@ -69,6 +69,8 @@ public class HandleCommand {
               case "SHOW":
                   csvRepresentation.show(Integer.parseInt(elements[1]), Integer.parseInt(elements[2]));
                   break;
+              case "SIZE":
+                  csvRepresentation.resizeColumn(Integer.parseInt(elements[1]));
               default:
                   // Don't know what kind of command, TODO: Tell the user
           }

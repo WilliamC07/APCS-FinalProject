@@ -62,7 +62,9 @@ Use the bash script provided in the program (easiest) or compile it yourself (ma
 > * `raise <cell 1 column row> <power>`
 > Performs the mathematical operation of raising the value of the cell to the given power
 > * `show <column> <row>`
-> Refreshes the screen to show the top left cell as the given values. This ignores negative values. 
+> Refreshes the screen to show the top left cell as the given values. This ignores negative values.
+> * ```size <amount of characters to fit in a column>```
+> Sets the amount of characters that can fit in the screen to the amount given. Negative values are ignored. 
 
 
 ## Development log
@@ -181,3 +183,6 @@ does now. Can compile with dependencies (lanterna and all the Google API jars).
 * Removed Operations.java because it was unneccesary now
 * Updated HandleCommand so user can add, mulitply, and average the values of multiple cells and is not limited to two cells.
 * Updated UML Diagram
+### 1/18/19
+#### William
+* Added feature to size columns and documented it in the README
