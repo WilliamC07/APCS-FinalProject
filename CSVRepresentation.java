@@ -113,6 +113,14 @@ public class CSVRepresentation {
         head.updateScreen(column, row);
     }
 
+    /**
+     * Sets the amount of characters that can fit in one column.
+     * @param size The amount of characters that can fit on one column.
+     */
+    public void resizeColumn(int size){
+        head.resizeColumn(size);
+    }
+
     public CommandBuilder getCommandBuilder(){
         return this.commandBuilder;
     }

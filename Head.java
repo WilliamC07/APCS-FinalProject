@@ -72,6 +72,15 @@ public class Head{
         screen.forceScreenUpdate(column, row);
     }
 
+    /**
+     * Updates the screen to have the amount of characters that can fit in a column to the given value. This will
+     * also refresh the screen.
+     * @param newSize The amount of characters that can fit in one column.
+     */
+    public void resizeColumn(int newSize){
+        screen.setColumnSize(newSize);
+    }
+
     public boolean isConnectedToGoogle() {
         return isConnectedToGoogle;
     }
