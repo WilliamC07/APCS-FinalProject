@@ -36,7 +36,7 @@ public class CSVNode{
     }
 
     /**
-     * Converts the string representation of the node defined by {@link #toString()} to data.
+     * Converts the string representation of the node defined by {@link #getFileRepresentation()} to data.
      * @param stringRepresentation String representation of the cell
      * @return Data to be stored in the cell.
      */
@@ -60,7 +60,8 @@ public class CSVNode{
     }
 
     /**
-     * Get the data stored in this node. DO NOT call {@link #toString()} to get the data stored inside to show the user.
+     * Get the data stored in this node. DO NOT call {@link #getFileRepresentation()} to get the data stored inside to
+     * show the user.
      * @return Data stored in the cell
      */
     public String getData(){
@@ -78,8 +79,7 @@ public class CSVNode{
      *    w,”” → “w, ” ” ” ” ” (ignore the white space and this text)
      * @return The string representation of this cell without commas to separate cells
      */
-    @Override
-    public String toString(){
+    public String getFileRepresentation(){
         // Use a StringBuilder because it is more efficient when appending characters in a loop
         StringBuilder returnString = new StringBuilder();
         boolean needsWrap = false;
@@ -106,4 +106,15 @@ public class CSVNode{
                 String.format("%c%s%c", quoteCharacter, returnString, quoteCharacter) :
                 returnString.toString();
     }
+
+    /**
+     * Gives the raw data stored in this node. This is not the one that should be saved to disk. Use
+     * {@link #getFileRepresentation()} for that.
+     * @return Raw data stored in this node.
+     */
+    @Override
+    public String toString() {
+        return this.data;
+    }
+
 }

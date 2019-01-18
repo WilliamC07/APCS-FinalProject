@@ -123,3 +123,27 @@ Alternatively, you can compile and run the program yourself. All needed dependen
 ### 1/14/19
 #### William
 * Added dependencies for the project (now includes all the Google API and lanterna). You can just use the bash script to compile and run the program
+* Added request to google sheets, need to add credentials before continuing 
+### 1/15/19
+#### William
+* Able to connect to Google API and view sheets
+* Cleaned up run.sh (script to compile and run). Bash no longer checks for number of arguments, the actual java program
+does now. Can compile with dependencies (lanterna and all the Google API jars).
+* General documentation (missing javadoc from earlier methods). Not fully completed yet.
+#### Samson
+* Began writing code to color certain cells 
+### 1/16/19
+#### William
+* Fixed bug where exiting the program will attempt to save the csv to a null path.
+* Can convert between integer column and rows to A1 format (columns are letters and rows are integers index 1)
+* Used a variable to check if the program is connected to a server or not, so we don't do null checks
+* Getting file representation of a CSVNode is done by getFileRepresentation instead of toString() to stay consistent with CSVRow
+#### Samson 
+* Scratched the code for coloring cells
+* Began coding when user wants to set a certain row or column as the header
+### 1/17/19
+#### William
+* Able to send the most recently done change to Google Sheet. This is limited to 500 requests per 100 seconds because that is what is free.
+* Use ReentrantLock instead of synchronized methods to prevent multiple threads having conflicting changes.
+* Use a global variable to check if the program is running so all threads stop at the same time and the program and quit with the ESCAPE button
+* Head.java controls all threads, CSVRepresentation, and CSVAccess to make code easier to read and understand.

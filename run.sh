@@ -2,18 +2,11 @@
 # Run this bash script to run the program
 # The parameter given will be passed into the program
 
-# An csv file must be passed in for the program to work.
-if [ $# -eq 0 ]
-then
-    echo "Give the path to the csv file (relative or absolute)"
-    exit 1
-fi
-
 # Removes existing classes
 rm *.class
 
 # Compile the project
-javac -cp ".:./dependency/lanterna.jar" *.java
+javac -cp .:dependency/* Main.java
 
 # Run the project
-java -cp ".:./dependency/lanterna.jar" Main $1
+java -cp .:dependency/* Main $1 $2 $3
