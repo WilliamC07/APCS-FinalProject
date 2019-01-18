@@ -124,3 +124,15 @@ Alternatively, you can compile and run the program yourself. All needed dependen
 #### William
 * Added dependencies for the project (now includes all the Google API and lanterna). You can just use the bash script to compile and run the program
 * Added request to google sheets, need to add credentials before continuing 
+### 1/15/19
+#### William
+* Able to connect to Google API and view sheets
+* Cleaned up run.sh (script to compile and run). Bash no longer checks for number of arguments, the actual java program
+does now. Can compile with dependencies (lanterna and all the Google API jars).
+* General documentation (missing javadoc from earlier methods). Not fully completed yet.
+#### Samson
+* Began writing code to color certain cells 
+### 1/16/19
+#### Samson 
+* Scratched the code for coloring cells
+* Began coding when user wants to set a certain row or column as the header
