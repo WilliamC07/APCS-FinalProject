@@ -10,6 +10,7 @@ public class HandleCommand {
 
     public void handle(String command){
         String[] elements = command.split(" ");
+
         int[] nums = new int[elements.length- 1];
         for (int i = 0; i < nums.length - 1; i++){
           nums[i] = Integer.parseInt(elements[i+1]);
@@ -21,7 +22,11 @@ public class HandleCommand {
             //checks what the user wants to do and handles them accordingly
               case "SET":
               {
-                  set(Integer.parseInt(elements[1]), Integer.parseInt(elements[2]), elements[3]);
+                String[] words = new String[elements.length - 1];
+                for (int i = 3; i < words.length - 1; i++){
+                  words[i] = elements[i+1];
+                }
+                set(Integer.parseInt(elements[1]), Integer.parseInt(elements[2]), words);
               }
                   break;
               case "SWAP":
@@ -94,8 +99,12 @@ public class HandleCommand {
      * @param row    The row where the user wants the new value
      * @param value  The new value the user wants
      */
-    private void set(int column, int row, String value){
-      Command c = new Command(csvRepresentation.getValue(column,row), value, column, row);
+    private void set(int column, int row, String[] value){
+      String val = "";
+      for (int i = 0; i < value.length-1; i++){
+        val += value[i];
+      }
+      Command c = new Command(csvRepresentation.getValue(column,row), val, column, row);
       csvRepresentation.pushCommand(c);
     }
 
