@@ -186,3 +186,5 @@ does now. Can compile with dependencies (lanterna and all the Google API jars).
 ### 1/18/19
 #### William
 * Added feature to size columns and documented it in the README
+#### Samson
+* Fixed issue where if you want to add more than one word to a cell it'll only add the first word
