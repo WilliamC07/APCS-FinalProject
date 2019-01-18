@@ -62,7 +62,9 @@ Use the bash script provided in the program (easiest) or compile it yourself (ma
 > * `raise <cell 1 column row> <power>`
 > Performs the mathematical operation of raising the value of the cell to the given power
 > * `show <column> <row>`
-> Refreshes the screen to show the top left cell as the given values. This ignores negative values. 
+> Refreshes the screen to show the top left cell as the given values. This ignores negative values.
+> * ```size <amount of characters to fit in a column>```
+> Sets the amount of characters that can fit in the screen to the amount given. Negative values are ignored. 
 
 
 ## Development log
