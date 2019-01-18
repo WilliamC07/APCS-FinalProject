@@ -1,6 +1,7 @@
 import com.google.api.client.auth.oauth2.Credential;
 
 import java.nio.file.Path;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Head of the program.
@@ -10,12 +11,13 @@ public class Head{
     private final Screen screen;
     private final boolean isConnectedToGoogle;
     private final CSVAccess csvAccess;
+    private final AtomicBoolean isProgrammingRunning = new AtomicBoolean(true);
 
     public Head(Path pathToCSV){
         this.csvAccess = new CSVAccess(pathToCSV);
         this.isConnectedToGoogle = false;
         this.csvRepresentation = new CSVRepresentation(csvAccess, this);
-        screen = new Screen(csvRepresentation);
+        screen = new Screen(csvRepresentation, isProgrammingRunning);
 
         // Start threads
         screen.start();
@@ -25,11 +27,34 @@ public class Head{
         this.csvAccess = new CSVAccess(credential, sheetID);
         this.isConnectedToGoogle = true;
         this.csvRepresentation = new CSVRepresentation(csvAccess, this);
-        screen = new Screen(csvRepresentation);
+        screen = new Screen(csvRepresentation, isProgrammingRunning);
 
         // start threads
         screen.start();
+        googleUpdaterThread();
     }
+
+    private void googleUpdaterThread(){
+        Thread updateCSVFromGoogle = new Thread(() -> {
+            while(isProgrammingRunning.get()){
+                // recreate the csv file
+                csvRepresentation.updateCSV(csvAccess.readCSV());
+                // show the new csv file
+                screen.forceScreenUpdate();
+
+                // Sleep every second to prevent flickering screen
+                try{
+                    Thread.sleep(1000);
+                }catch(InterruptedException e){
+                    // Do nothing
+                }
+            }
+        });
+
+        updateCSVFromGoogle.start();
+    }
+
+
 
     /**
      * Forces the terminal screen to update and show the newest changes.
