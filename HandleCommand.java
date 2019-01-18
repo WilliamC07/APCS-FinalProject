@@ -41,7 +41,7 @@ public class HandleCommand {
                   break;
               case "MULTIPLY":
               {
-                multiply(Integer.parseInt(elements[1]),Integer.parseInt(elements[2]),Integer.parseInt(elements[3]),Integer.parseInt(elements[4]),Integer.parseInt(elements[5]),Integer.parseInt(elements[6]));
+                multiply(nums);
               }
                   break;
               case "DIVIDE":
@@ -58,7 +58,7 @@ public class HandleCommand {
               case "AVERAGE":
               case "MEAN":
               {
-                average(Integer.parseInt(elements[1]),Integer.parseInt(elements[2]),Integer.parseInt(elements[3]),Integer.parseInt(elements[4]),Integer.parseInt(elements[5]),Integer.parseInt(elements[6]));
+                average(nums);
               }
                   break;
               case "REMOVE":
@@ -84,7 +84,7 @@ public class HandleCommand {
           }
         }
         //if the user inputs bad values, nothing happens
-        catch(NumberFormatException e){
+        catch(Exception e){
         }
       }
 
@@ -117,7 +117,7 @@ public class HandleCommand {
       csvRepresentation.pushCommand(c);
       csvRepresentation.pushCommand(d);
     }
-
+/*
     /**
      * Adds the values inside 2 given cells into the 3rd cell.
      * @param col1     Column of first cell
@@ -139,19 +139,19 @@ public class HandleCommand {
       String s = sum + "";
       Command c = new Command(oldval, s , storeCol, storeRow);
       csvRepresentation.pushCommand(c);
-    }
+    }*/
 
     /**
      * Adds the values of all the cells given by the user
      * @param nums An int array where the values alternate between column and row. The last 2 values represent the column and row where sum will be stored;
      */
-
     private void add(int[] nums){
       int sum = 0;
       int len = nums.length;
       String oldVal = csvRepresentation.getValue(nums[len - 2],nums[len - 1]);
       for( int i = 1; i < len - 2; i += 2 ){
-        sum += Integer.parseInt(csvRepresentation.getValue(i-1,i));
+        String val = csvRepresentation.getValue(nums[i-1],nums[i]);
+        sum += Integer.parseInt(val);
       }
       String s = sum + "";
       Command c = new Command(oldVal,s,nums[len - 2],nums[len - 1]);
@@ -180,6 +180,7 @@ public class HandleCommand {
       csvRepresentation.pushCommand(c);
     }
 
+/*
     /**
      * Multiplies the values inside 2 given cells into the 3rd cell.
      * @param col1     Column of first cell
@@ -189,6 +190,7 @@ public class HandleCommand {
      * @param storeCol Column of cell where data will be stored
      * @param storeRow Row of cell where data will be stored
      */
+    /*
     private void multiply(int col1, int row1, int col2, int row2, int storeCol, int storeRow){
       //keeps track of the old value of the cell that will be replaced
       String oldval = csvRepresentation.getValue(storeCol,storeRow);
@@ -201,6 +203,24 @@ public class HandleCommand {
       Command c = new Command(oldval, s , storeCol, storeRow);
       csvRepresentation.pushCommand(c);
     }
+*/
+    /**
+     * Multiplies the values of all the cells given by the user
+     * @param nums An int array where the values alternate between column and row. The last 2 values represent the column and row where sum will be stored;
+     */
+    private void multiply(int[] nums){
+      int product = 1;
+      int len = nums.length;
+      String oldVal = csvRepresentation.getValue(nums[len - 2],nums[len - 1]);
+      for( int i = 1; i < len - 2; i += 2 ){
+        String val = csvRepresentation.getValue(nums[i-1],nums[i]);
+        product *= Integer.parseInt(val);
+      }
+      String s = product + "";
+      Command c = new Command(oldVal,s,nums[len - 2],nums[len - 1]);
+      csvRepresentation.pushCommand(c);
+    }
+
 
     /**
      * Divides the values inside 2 given cells into the 3rd cell.
@@ -241,7 +261,7 @@ public class HandleCommand {
       Command c = new Command(oldVal,s, col, row);
       csvRepresentation.pushCommand(c);
     }
-
+/*
     /**
      * Finds the average of the values inside 2 given cells and places it in the 3rd cell.
      * @param col1     Column of first cell
@@ -251,6 +271,7 @@ public class HandleCommand {
      * @param storeCol Column of cell where data will be stored
      * @param storeRow Row of cell where data will be stored
      */
+    /*
     private void average(int col1, int row1, int col2, int row2, int storeCol, int storeRow){
       //keeps track of the old value of the cell that will be replaced
       String oldval = csvRepresentation.getValue(storeCol,storeRow);
@@ -263,6 +284,25 @@ public class HandleCommand {
       Command c = new Command(oldval, s , storeCol, storeRow);
       csvRepresentation.pushCommand(c);
     }
+*/
+    /**
+     * Averages the values of all the cells given by the user
+     * @param nums An int array where the values alternate between column and row. The last 2 values represent the column and row where sum will be stored;
+     */
+    private void average(int[] nums){
+      double sum = 0;
+      int len = nums.length;
+      String oldVal = csvRepresentation.getValue(nums[len - 2],nums[len - 1]);
+      for( int i = 1; i < len - 2; i += 2 ){
+        String val = csvRepresentation.getValue(nums[i-1],nums[i]);
+        sum += Double.parseDouble(val);
+      }
+      sum /= len;
+      String s = sum + "";
+      Command c = new Command(oldVal,s,nums[len - 2],nums[len - 1]);
+      csvRepresentation.pushCommand(c);
+    }
+
 
     /**
      * Removes the cell at the given row and column
