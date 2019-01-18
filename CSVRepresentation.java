@@ -31,7 +31,7 @@ public class CSVRepresentation {
         accessCSV.unlock();
     }
 
-    public synchronized String getValue(int column, int row){
+    public String getValue(int column, int row){
         try{
             accessCSV.lock();
             return rows.get(row).get(column).getData();
@@ -58,7 +58,7 @@ public class CSVRepresentation {
      * update to the lastest changes.
      * @param command
      */
-    public synchronized void pushCommand(Command command){
+    public void pushCommand(Command command){
         // Add the command to the stack for undo
         commands.push(command);
         // Make the edit happen
