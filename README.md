@@ -183,3 +183,6 @@ does now. Can compile with dependencies (lanterna and all the Google API jars).
 * Removed Operations.java because it was unneccesary now
 * Updated HandleCommand so user can add, mulitply, and average the values of multiple cells and is not limited to two cells.
 * Updated UML Diagram
+### 1/18/19
+#### William
+* Added feature to size columns and documented it in the README
