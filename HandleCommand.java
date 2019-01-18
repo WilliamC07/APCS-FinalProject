@@ -107,6 +107,7 @@ public class HandleCommand {
      * @param value  The new value the user wants
      */
     private void set(int column, int row, String[] value){
+      //loops through an array and appends it to a string
       String val = "";
       for (int i = 0; i < value.length - 1; i++){
         val += value[i] + " ";
@@ -162,13 +163,17 @@ public class HandleCommand {
      * @param nums An int array where the values alternate between column and row. The last 2 values represent the column and row where sum will be stored;
      */
     private void add(int[] nums){
+      //keeps tracks of the sum
       int sum = 0;
       int len = nums.length;
+      //tracks the old value of the cell given the last two values which signify the location of the storage cell
       String oldVal = csvRepresentation.getValue(nums[len - 2],nums[len - 1]);
+      //loops through the array and adds the values
       for( int i = 1; i < len - 2; i += 2 ){
         String val = csvRepresentation.getValue(nums[i-1],nums[i]);
         sum += Integer.parseInt(val);
       }
+      //Turns the sum into a string
       String s = sum + "";
       Command c = new Command(oldVal,s,nums[len - 2],nums[len - 1]);
       csvRepresentation.pushCommand(c);
@@ -225,13 +230,17 @@ public class HandleCommand {
      * @param nums An int array where the values alternate between column and row. The last 2 values represent the column and row where sum will be stored;
      */
     private void multiply(int[] nums){
+      //product starts at one bc anything mulitplied by 1 is itself
       int product = 1;
       int len = nums.length;
+      //tracks value of last cell
       String oldVal = csvRepresentation.getValue(nums[len - 2],nums[len - 1]);
+      //loops through the array and multiplies the values
       for( int i = 1; i < len - 2; i += 2 ){
         String val = csvRepresentation.getValue(nums[i-1],nums[i]);
         product *= Integer.parseInt(val);
       }
+      //converts the product to a string
       String s = product + "";
       Command c = new Command(oldVal,s,nums[len - 2],nums[len - 1]);
       csvRepresentation.pushCommand(c);
@@ -308,12 +317,14 @@ public class HandleCommand {
     private void average(int[] nums){
       double sum = 0;
       int len = nums.length;
+      //keeps track of the value of the last cell since that's where it'll be stored
       String oldVal = csvRepresentation.getValue(nums[len - 2],nums[len - 1]);
-
+      //loops through the array and adds the numbers
       for( int i = 1; i <= len - 2; i += 2 ){
         String val = csvRepresentation.getValue(nums[i-1],nums[i]);
         sum += Double.parseDouble(val);
       }
+      //divdes by len / 2 - 1 because one cell is represented by two parts in the array and subtract one because one cell represents the storage cell
       sum /= ((len/2) - 1);
       String s = sum + "";
       Command c = new Command(oldVal,s,nums[len - 2],nums[len - 1]);
@@ -330,17 +341,5 @@ public class HandleCommand {
         String old = csvRepresentation.getValue(col, row);
         csvRepresentation.pushCommand(new Command(old, "", col, row));
     }
-
-    /*private void colorRow(Color c, int row){
-
-    }
-
-    private void colorCol(Color c, int col){
-
-    }
-
-    private void color(Color c){
-
-    }*/
 
   }
