@@ -40,7 +40,11 @@ public class HandleCommand {
                   break;
               case "SUBTRACT":
               {
-                subtract(Integer.parseInt(elements[1]),Integer.parseInt(elements[2]),Integer.parseInt(elements[3]),Integer.parseInt(elements[4]),Integer.parseInt(elements[5]),Integer.parseInt(elements[6]));
+                int[] nums = new int[elements.length- 1];
+                for (int i = 0; i < nums.length - 1; i++){
+                  nums[i] = Integer.parseInt(elements[i+1]);
+                }
+                subtract(nums);
               }
                   break;
               case "MULTIPLY":
@@ -54,7 +58,11 @@ public class HandleCommand {
                   break;
               case "DIVIDE":
               {
-                division(Integer.parseInt(elements[1]),Integer.parseInt(elements[2]),Integer.parseInt(elements[3]),Integer.parseInt(elements[4]),Integer.parseInt(elements[5]),Integer.parseInt(elements[6]));
+                int[] nums = new int[elements.length- 1];
+                for (int i = 0; i < nums.length - 1; i++){
+                  nums[i] = Integer.parseInt(elements[i+1]);
+                }
+                division(nums);
               }
                   break;
               case "RAISE":
@@ -178,7 +186,7 @@ public class HandleCommand {
       Command c = new Command(oldVal,s,nums[len - 2],nums[len - 1]);
       csvRepresentation.pushCommand(c);
     }
-
+/*
     /**
      * Subtracts the values inside 2 given cells into the 3rd cell.
      * @param col1     Column of first cell
@@ -187,7 +195,7 @@ public class HandleCommand {
      * @param row2     Row of second cell
      * @param storeCol Column of cell where data will be stored
      * @param storeRow Row of cell where data will be stored
-     */
+     *//*
     private void subtract(int col1, int row1, int col2, int row2, int storeCol, int storeRow){
       //keeps track of the old value of the cell where the sum will be stored
       String oldval = csvRepresentation.getValue(storeCol,storeRow);
@@ -198,6 +206,27 @@ public class HandleCommand {
       int difference = Integer.parseInt(num1) - Integer.parseInt(num2);
       String s = difference + "";
       Command c = new Command(oldval, s , storeCol, storeRow);
+      csvRepresentation.pushCommand(c);
+    }
+*/
+    /**
+     * Subtracts the values of all the cells given by the user
+     * @param nums An int array where the values alternate between column and row. The last 2 values represent the column and row where sum will be stored;
+     */
+    private void subtract(int[] nums){
+      //keeps tracks of the first cell
+      int difference = Integer.parseInt(csvRepresentation.getValue(nums[0],nums[1]));
+      int len = nums.length;
+      //tracks the old value of the cell given the last two values which signify the location of the storage cell
+      String oldVal = csvRepresentation.getValue(nums[len - 2],nums[len - 1]);
+      //loops through the array and subtracts the values
+      for( int i = 3; i < len - 2; i += 2 ){
+        String val = csvRepresentation.getValue(nums[i-1],nums[i]);
+        difference -= Integer.parseInt(val);
+      }
+      //Turns the difference into a string
+      String s = difference + "";
+      Command c = new Command(oldVal,s,nums[len - 2],nums[len - 1]);
       csvRepresentation.pushCommand(c);
     }
 
@@ -246,7 +275,7 @@ public class HandleCommand {
       csvRepresentation.pushCommand(c);
     }
 
-
+/*
     /**
      * Divides the values inside 2 given cells into the 3rd cell.
      * @param col1     Column of first cell
@@ -255,7 +284,7 @@ public class HandleCommand {
      * @param row2     Row of second cell
      * @param storeCol Column of cell where data will be stored
      * @param storeRow Row of cell where data will be stored
-     */
+     *//*
     private void division(int col1, int row1, int col2, int row2, int storeCol, int storeRow){
       //keeps track of the old value of the cell that will be replaced
       String oldval = csvRepresentation.getValue(storeCol,storeRow);
@@ -266,6 +295,27 @@ public class HandleCommand {
       double quotient = (double)Integer.parseInt(num1) / (double)Integer.parseInt(num2);
       String s = quotient + "";
       Command c = new Command(oldval, s , storeCol, storeRow);
+      csvRepresentation.pushCommand(c);
+    }
+*/
+    /**
+     * Divides the values of all the cells given by the user
+     * @param nums An int array where the values alternate between column and row. The last 2 values represent the column and row where sum will be stored;
+     */
+    private void division(int[] nums){
+      //keeps tracks of the first cell
+      Double quotient = Double.parseDouble(csvRepresentation.getValue(nums[0],nums[1]));
+      int len = nums.length;
+      //tracks the old value of the cell given the last two values which signify the location of the storage cell
+      String oldVal = csvRepresentation.getValue(nums[len - 2],nums[len - 1]);
+      //loops through the array and Divides the values
+      for( int i = 3; i < len - 2; i += 2 ){
+        String val = csvRepresentation.getValue(nums[i-1],nums[i]);
+        quotient /= Integer.parseInt(val);
+      }
+      //Turns the quotient into a string
+      String s = quotient + "";
+      Command c = new Command(oldVal,s,nums[len - 2],nums[len - 1]);
       csvRepresentation.pushCommand(c);
     }
 
