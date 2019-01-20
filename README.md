@@ -55,10 +55,10 @@ Use the bash script provided in the program (easiest) or compile it yourself (ma
 > Undo the most recently done command.
 > * `swap <cell 1 column> <cell 1 row> <cell 2 column> <cell 2 row>`
 > Swaps the content of two cells
-> * `remove <column> <row>`
-> Deletes the content of the cell
-> * `multiple/add/divide/subtract/average <cell 1 column row> <cell 2 column row> <place to store value column and row>`
-> Performs mathematical operation on the given two cells
+> * `remove int[]`
+> Deletes the content of the cell in the given array where even indexes are the columns and odd indexes are the rows
+> * `multiple/add/divide/subtract/average int[]`
+> Performs mathematical operation on the cells in the given array where the last two values represent where the value will be stored and even indexes are the columns and odd indexes are the rows
 > * `raise <cell 1 column row> <power>`
 > Performs the mathematical operation of raising the value of the cell to the given power
 > * `show <column> <row>`
@@ -188,3 +188,12 @@ does now. Can compile with dependencies (lanterna and all the Google API jars).
 * Added feature to size columns and documented it in the README
 #### Samson
 * Fixed issue where if you want to add more than one word to a cell it'll only add the first word
+### 1/19/19
+#### Samson
+* Began removing code for setting header but unfinished 
+### 1/20/19
+#### William
+
+#### Samson
+* Finished removing code for setting header for now
+* Updated README with new instructions on how to use the updated math functions
