@@ -98,7 +98,7 @@ public class HandleCommand {
                   break;
               case "SETCOLUMNHEADER":
                   csvRepresentation.setColumnHeader(Integer.parseInt(elements[1]));
-                  breakk
+                  break;
               case "SIZE":
                   csvRepresentation.resizeColumn(Integer.parseInt(elements[1]));
                   break;
