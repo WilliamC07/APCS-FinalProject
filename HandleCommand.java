@@ -93,12 +93,15 @@ public class HandleCommand {
               case "SHOW":
                   csvRepresentation.show(Integer.parseInt(elements[1]), Integer.parseInt(elements[2]));
                   break;
-              /*case "SETROWHEADER":
+              case "SETROWHEADER":
                   csvRepresentation.setRowHeader(Integer.parseInt(elements[1]));
                   break;
               case "SETCOLUMNHEADER":
                   csvRepresentation.setColumnHeader(Integer.parseInt(elements[1]));
-                  */
+                  breakk
+              case "SIZE":
+                  csvRepresentation.resizeColumn(Integer.parseInt(elements[1]));
+                  break;
               default:
                   // Don't know what kind of command, TODO: Tell the user
           }

@@ -5,3 +5,6 @@
 
 # For mac file system
 .DS_Store 
+
+# So your credentials won't be uploaded to github for GoogleAPI
+.json
