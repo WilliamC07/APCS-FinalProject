@@ -84,7 +84,11 @@ public class HandleCommand {
               case "REMOVE":
               case "RM":
               {
-                  remove(Integer.parseInt(elements[1]), Integer.parseInt(elements[2]));
+                int[] nums = new int[elements.length- 1];
+                for (int i = 0; i < nums.length - 1; i++){
+                  nums[i] = Integer.parseInt(elements[i+1]);
+                }
+                remove(nums);
               }
                   break;
               case "UNDO":
@@ -384,9 +388,11 @@ public class HandleCommand {
      * @param col Column of element to be removed
      * @param row Row of the element to be removed
      */
-    private void remove(int col, int row){
-        String old = csvRepresentation.getValue(col, row);
-        csvRepresentation.pushCommand(new Command(old, "", col, row));
+    private void remove(int[] nums){
+      for (int i = 0; i < nums.length; i += 2){
+        String old = csvRepresentation.getValue(nums[i], nums[i+1]);
+        csvRepresentation.pushCommand(new Command(old, "", nums[i], nums[i+1]));
+      }
     }
 
   }
