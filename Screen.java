@@ -7,6 +7,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Screen extends Thread {
+
+    /**
+     * This is how we keep track of whether user wants a header or not
+     */
+    private boolean header;
     /**
      * This is how the screen gain access to the CSV and get the content to display on the screen.
      */
@@ -37,6 +42,14 @@ public class Screen extends Thread {
      * The amount of characters that can fit in one column. There is an initial value of 10 character per column.
      */
     private volatile int columnSize = 10;
+
+    public boolean getHeader(){
+      return header;
+    }
+
+    public void setHeader(boolean newHeader){
+      header = newHeader;
+    }
 
     /**
      * Constructor. Only one of these should be created.
@@ -207,15 +220,21 @@ public class Screen extends Thread {
             // Every other row has a dashed line (starting with row 1)
 
             if(row % 2 == 0){
-                gird[row] = repeat("-", columns);
+                grid[row] = repeat("-", columns);
             }else{
                 // All other lines are able to fit data and a divider
                 StringBuilder rowBuilder = new StringBuilder();
                 // Leave the incrementation to when we print things to the screen because it is easier to understand
                 // that way
                 for (int column = 0; column < columns;) {
-                    // Have to subtract 1 because the first column is reserved for displaying the row number
-                    int csvColumn = startColumn.get() + column / (columnSize + 1) - 1;
+                  if (getHeader()){
+                    //Have to subtract 2 because the first column is reserved for displaying the row number and there is a header
+                    int csvColumn = startColumn.get() + column / (cellSpacing + 1) - 2;
+                  }
+                  else{
+                    //Have to subtract 1 because the first column is reserved for displaying the row number and there is no header
+                    int csvColumn = startColumn.get() + column / (cellSpacing + 1) - 1;
+                  }
                     String valueToDisplay;
                     // Note: In these conditionals, we are using row and column (that is the position in the terminal,
                     // not the position in the csv because labeling row and column is always the top or left of the
@@ -250,10 +269,10 @@ public class Screen extends Thread {
                         column += columnSize + 1; // add one for the divider
                     }
                 }
-                gird[row] = rowBuilder.toString();
+                grid[row] = rowBuilder.toString();
             }
         }
-        return gird;
+        return grid;
     }
 
     /**
