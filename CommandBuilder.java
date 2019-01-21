@@ -12,6 +12,11 @@ public class CommandBuilder {
         this.handleCommand = handleCommand;
     }
 
+    /**
+     * Each keystroke the user presses (that is a alphabet, space, enter, or backspace ) should be be passed into this.
+     * Enter key means the user string being typed is completed and the command the user gave will be created.
+     * @param key The user's keystroke
+     */
     public void addChar(Key key){
         switch(key.getKind()){
             case Enter:
@@ -30,6 +35,10 @@ public class CommandBuilder {
         }
     }
 
+    /**
+     * Get the string the user is currently typing.
+     * @return String the user is currently typing.
+     */
     @Override
     public String toString(){
         return builder.toString();

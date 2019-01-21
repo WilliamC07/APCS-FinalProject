@@ -6,6 +6,10 @@ import java.util.List;
  * Each object of this class represents each row of the CSV file.
  */
 public class CSVRow extends LinkedList<CSVNode>{
+    /**
+     * Private constructor because static factory method makes it easier to understand. A constructor has "no name" but
+     * a static factory can be named anything so it is easier to code and see what is happening.
+     */
     private CSVRow(){
 
     }
@@ -98,16 +102,26 @@ public class CSVRow extends LinkedList<CSVNode>{
         return row;
     }
 
+    /**
+     * Creates an empty row.
+     * @return An empty row
+     */
     public static CSVRow createEmptyRow(){
         return new CSVRow();
     }
 
+    /**
+     * Creates an instance of this class from the list. This is used for Google API because they only give a list of
+     * a list for representing a Google Sheet, but we are using a LinkedList of a LinkedList.
+     * @param list A row of a CSV (has to be processed and not raw).
+     *             A raw value is one with still commas and quotes attached, so the one stored on disk.
+     * @return Shallow copy of the list turned into a LinkedList (which is this class)
+     */
     public static CSVRow fromList(List<Object> list){
         CSVRow row = new CSVRow();
         list.stream().forEach(item -> row.add(CSVNode.newInstance(item.toString())));
         return row;
     }
-
 
     /**
      * Removes all cells at the end of the list that does not contain data (empty string)
