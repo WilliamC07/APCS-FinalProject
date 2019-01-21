@@ -152,7 +152,7 @@ public class Screen extends Thread {
 
         TerminalSize size = screen.getTerminalSize();
         // reserve one row for the user input
-        String[] csvGrid = getTable(size.getColumns(), size.getRows() - 1,10);
+        String[] csvGrid = getTable(size.getColumns(), size.getRows() - 1,columnSize);
         for(int row = 0; row < size.getRows() - 1; row++){
             screen.putString(0, row, csvGrid[row], null, null);
         }
