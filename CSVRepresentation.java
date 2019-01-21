@@ -7,9 +7,22 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class CSVRepresentation {
     private final CSVAccess csvAccess;
+    /**
+     * A csv file is represented by a LinkedList of a LinkedList (CSVRow extends a LinkedList).
+     */
     private LinkedList<CSVRow> rows;
+    /**
+     * Stack of all the commands done on the csv file (first in first out to undo). This will reset every time the user
+     * restarts the program.
+     */
     private final ArrayDeque<Command> commands = new ArrayDeque<>();
+    /**
+     * Object to perform edits
+     */
     private final HandleCommand handleCommand = new HandleCommand(this);
+    /**
+     * Build user keystrokes to create a command.
+     */
     private final CommandBuilder commandBuilder = new CommandBuilder(handleCommand);
     private final Head head;
     /**
@@ -25,12 +38,23 @@ public class CSVRepresentation {
         this.rows = csvAccess.readCSV();
     }
 
+    /**
+     * Replaces the csv file on this program to another. This is used for the Google API because the Google Sheet is
+     * the most recent one to user and more reliable (anything can happen to the client, but the host is pretty reliable)
+     * @param newRows The csv to replace the one stored on this machine.
+     */
     public void updateCSV(LinkedList<CSVRow> newRows){
         accessCSV.lock();
         rows = newRows;
         accessCSV.unlock();
     }
 
+    /**
+     * Gets the value of the cell at the given column and row position.
+     * @param column Column of the cell
+     * @param row Row of the cell
+     * @return Value stored in that cell. Empty string if there is nothing stored.
+     */
     public String getValue(int column, int row){
         try{
             accessCSV.lock();
@@ -45,7 +69,6 @@ public class CSVRepresentation {
 
     /**
      * Saves the CSV file onto disk using the original location provided by the user.
-     * TODO: Handle what happens if it can't be saved
      */
     public void save(){
         accessCSV.lock();
@@ -55,8 +78,8 @@ public class CSVRepresentation {
 
     /**
      * Add a command done by the user onto the stack and do those edits onto the screen. Also tells the screen to
-     * update to the lastest changes.
-     * @param command
+     * update to the latest changes.
+     * @param command Command to perform.
      */
     public void pushCommand(Command command){
         // Add the command to the stack for undo
