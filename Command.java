@@ -3,9 +3,21 @@
  * will be added to the stack and all information done on this will.
  */
 public class Command {
+    /**
+     * The old value of the cell
+     */
     private String oldValue;
+    /**
+     * The new value of the cell. This value will be shown to the user.
+     */
     private String newValue;
+    /**
+     * Row position of the cell
+     */
     private int row;
+    /**
+     * Column position of the cell
+     */
     private int column;
 
     /**
